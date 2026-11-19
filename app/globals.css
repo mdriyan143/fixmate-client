@@ -1,26 +1,165 @@
 @import "tailwindcss";
 
+/* Warm greys and tints: every slate-* and orange-* class in the app now follows the FixMate palette */
+@theme {
+  --color-slate-50: #faf9f5;
+  --color-slate-100: #f1efe8;
+  --color-slate-200: #e4e0d4;
+  --color-slate-300: #cfcabc;
+  --color-slate-400: #a19d90;
+  --color-slate-500: #6b6a65;   /* secondary text */
+  --color-slate-600: #55544f;
+  --color-slate-700: #3f4046;
+  --color-slate-800: #2b2d31;
+  --color-orange-50: #fef3e4;
+  --color-orange-100: #fde6c9;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --sage: #9caf88;         /* primary sections: hero, why choose us, footer, dashboard sidebar */
+  --sage-dark: #6f8560;    /* darker sage for borders and focus */
+  --sage-soft: #e8eee2;    /* very light sage for chips and icon tiles */
+  --soft: #f7f5ef;         /* off-white: page background and navbar */
+  --accent: #f28c28;       /* warm orange: CTA buttons and important actions */
+  --accent-dark: #dd7a16;  /* darker orange on hover */
+  --accent-ink: #b4570a;   /* dark orange for small orange TEXT, readable on white */
+  --navy: #2b2d31;         /* charcoal: text and headings (old name kept, so no component changes) */
+  --line: #e4e0d4;         /* thin warm border colour */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--soft);              /* off-white page background */
+  color: var(--navy);                   /* charcoal text */
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;  /* Inter is added by next/font in layout.tsx */
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;  /* crisper text on Mac and iOS */
+}
+
+@layer base {
+  h1, h2, h3, h4 { letter-spacing: -0.01em; }   /* slightly tighter headings look cleaner */
+}
+
+/* "components" layer: Tailwind utility classes can still override these */
+@layer components {
+  .page-wrap {
+    max-width: 1200px;                  /* content never gets wider than this */
+    margin: 0 auto;                     /* centers the box left-right */
+    padding: 0 clamp(16px, 4vw, 32px);  /* 16px on phones, up to 32px on desktop */
+  }
+  .section-gap { padding: clamp(48px, 8vw, 80px) 0; }   /* space above and below a section */
+  .section-title {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);   /* same heading style on every section */
+    font-weight: 700;
+    color: var(--navy);
+    text-align: center;
+  }
+  .section-sub {
+    color: #6b6a65;               /* soft warm grey */
+    text-align: center;
+    max-width: 560px;             /* keeps the line short and readable */
+    margin: 8px auto 36px;
+  }
+
+  /* buttons: orange CTA with charcoal text (best contrast on orange) */
+  .btn-main {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    background: var(--accent);
+    color: var(--navy);
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgb(43 45 49 / 0.12);
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .btn-main:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 6px 16px rgb(242 140 40 / 0.3); }
+  .btn-main:focus-visible, .btn-ghost:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 2px; }
+  .btn-main:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-ghost {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    background: #fff;
+    color: var(--navy);
+    border: 1px solid #d5d0c2;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 12px;
+    transition: background 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+  .btn-ghost:hover { background: var(--sage-soft); border-color: var(--sage); }
+  .btn-danger {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    background: #dc2626;          /* red stays red: it warns about risky actions */
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  .btn-danger:hover { background: #b91c1c; }
+  .btn-small { padding: 6px 14px; font-size: 0.85rem; border-radius: 10px; }
+
+  /* form inputs */
+  .input-box {
+    width: 100%;
+    border: 1px solid #d5d0c2;
+    border-radius: 12px;
+    padding: 10px 14px;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .input-box:focus {
+    border-color: var(--accent);                     /* orange border when typing */
+    box-shadow: 0 0 0 3px rgb(242 140 40 / 0.18);    /* soft orange glow */
+  }
+  .input-label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #3f4046; }
+  .input-error { color: #dc2626; font-size: 0.8rem; margin-top: 4px; }
+
+  /* white card with a soft shadow */
+  .card-box {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 1px 2px rgb(43 45 49 / 0.04), 0 8px 24px rgb(43 45 49 / 0.06);
+  }
+
+  /* tables (scroll sideways on small screens) */
+  .table-box { overflow-x: auto; }
+  .table-box table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .table-box th {
+    text-align: left; padding: 12px 14px; background: #f3f0e6;
+    color: #5e5d57; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap;
+  }
+  .table-box td { padding: 12px 14px; border-top: 1px solid var(--line); vertical-align: middle; }
+  .table-box tbody tr:hover { background: #fbfaf6; }
+
+  /* status badges: same colours in every dashboard */
+  .badge {
+    display: inline-block; padding: 2px 10px; border-radius: 999px;
+    font-size: 0.75rem; font-weight: 600; white-space: nowrap;
+  }
+  .badge-requested { background: #dbeafe; color: #1d4ed8; }     /* blue */
+  .badge-accepted { background: #e0e7ff; color: #4338ca; }      /* indigo */
+  .badge-in-progress { background: #fef3c7; color: #b45309; }   /* amber */
+  .badge-completed { background: #dcfce7; color: #15803d; }     /* green */
+  .badge-rejected { background: #fee2e2; color: #b91c1c; }      /* red */
+  .badge-cancelled { background: #e5e7eb; color: #4b5563; }     /* gray */
+  .badge-paid { background: #dcfce7; color: #15803d; }
+  .badge-unpaid { background: #fef3c7; color: #b45309; }
+  .badge-pending { background: #fef3c7; color: #b45309; }
+  .badge-approved { background: #dcfce7; color: #15803d; }
+  .badge-role { background: var(--sage-soft); color: #3f5230; } /* role and category chips: soft sage */
+
+  /* loading placeholder with a moving shine */
+  .skeleton {
+    background: linear-gradient(90deg, #ece8dc, #f5f2e9, #ece8dc);
+    background-size: 200% 100%;
+    animation: shine 1.2s infinite;
+    border-radius: 14px;
+  }
+}
+
+@keyframes shine {
+  to { background-position: -200% 0; }
 }
