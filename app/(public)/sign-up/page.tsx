@@ -50,7 +50,7 @@ export default function SignUpPage() {
     setBusy(true);
     const { error } = await authClient.signUp.email(form);
     setBusy(false);
-    if (error) return toast.error(error.message || "Sign up failed");
+    if (error) return toast.error(error.message || "Sign up failed", { duration: 2500 });
     toast.success("Account created! Welcome to FixMate");
     router.push(dashboardPath(form.role));
   }
