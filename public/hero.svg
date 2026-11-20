@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 840" width="1200" height="840">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#BCCBA9"/><stop offset="1" stop-color="#8BA176"/></linearGradient>
+ <linearGradient id="scr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#37424A"/><stop offset="1" stop-color="#1D2328"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F1EEE6"/></linearGradient>
+ <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FC4D8"/><stop offset="1" stop-color="#3E8CA8"/></linearGradient>
+ <linearGradient id="body" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9E6DD"/></linearGradient>
+ <filter id="sh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#1c2a14" flood-opacity="0.28"/></filter>
+ <filter id="sh2" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#1c2a14" flood-opacity="0.22"/></filter>
+</defs>
+<rect width="1200" height="840" fill="url(#bg)"/>
+<circle cx="1050" cy="120" r="260" fill="#fff" opacity="0.10"/>
+<circle cx="120" cy="760" r="300" fill="#fff" opacity="0.08"/>
+<circle cx="610" cy="60" r="70" fill="#fff" opacity="0.07"/>
+<!-- bench -->
+<rect y="610" width="1200" height="230" fill="#EFE9DA"/>
+<rect y="610" width="1200" height="10" fill="#DDD5C2"/>
+<rect y="620" width="1200" height="44" fill="#fff" opacity="0.25"/>
+<!-- laptop -->
+<g filter="url(#sh)">
+ <rect x="650" y="300" width="430" height="290" rx="20" fill="#2B2F33"/>
+ <rect x="666" y="316" width="398" height="258" rx="10" fill="url(#scr)"/>
+ <rect x="694" y="346" width="150" height="12" rx="6" fill="#fff" opacity="0.55"/>
+ <rect x="694" y="370" width="100" height="12" rx="6" fill="#fff" opacity="0.28"/>
+ <g transform="translate(940,470)"><circle r="62" fill="none" stroke="#F28B27" stroke-width="12" stroke-dasharray="18 10"/><circle r="26" fill="#F28B27"/>
+  <path d="M-12,0 L-3,10 L14,-10" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>
+ <rect x="694" y="520" width="90" height="10" rx="5" fill="#3F9B5B"/>
+ <rect x="694" y="540" width="60" height="10" rx="5" fill="#fff" opacity="0.28"/>
+ <path d="M610,590 H1120 L1090,634 Q1085,642 1075,642 H655 Q645,642 640,634 Z" fill="#DADED6"/>
+ <rect x="800" y="590" width="120" height="12" rx="6" fill="#B9BEB5"/>
+</g>
+<!-- phone -->
+<g transform="translate(80,0) rotate(-6 400 450)" filter="url(#sh)">
+ <rect x="285" y="215" width="230" height="440" rx="38" fill="#2B2F33"/>
+ <rect x="297" y="227" width="206" height="416" rx="29" fill="url(#glass)"/>
+ <rect x="360" y="238" width="80" height="16" rx="8" fill="#2B2F33"/>
+ <circle cx="400" cy="370" r="62" fill="#F28B27"/>
+ <path d="M370,370 L394,396 L436,346" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+ <text x="400" y="480" text-anchor="middle" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="800" font-size="24" fill="#2B2F33">Repair complete</text>
+ <text x="400" y="508" text-anchor="middle" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="500" font-size="16" fill="#6a7168">Ready for pickup</text>
+ <rect x="330" y="560" width="140" height="44" rx="22" fill="#2B2F33"/>
+ <text x="400" y="589" text-anchor="middle" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="700" font-size="17" fill="#fff">Pay now</text>
+</g>
+<!-- tools -->
+<g transform="translate(70,700) rotate(-8)" filter="url(#sh2)">
+ <rect x="0" y="-18" width="104" height="36" rx="18" fill="#F28B27"/><rect x="14" y="-6" width="56" height="10" rx="5" fill="#fff" opacity="0.35"/>
+ <rect x="102" y="-7" width="130" height="14" fill="#C9CED2"/><polygon points="232,-7 258,-3 258,3 232,7" fill="#9AA1A6"/></g>
+<g transform="translate(70,780) rotate(4)" filter="url(#sh2)">
+ <rect x="0" y="-14" width="84" height="28" rx="14" fill="#2B2F33"/>
+ <rect x="82" y="-5" width="96" height="10" fill="#C9CED2"/><polygon points="178,-5 198,-2 198,2 178,5" fill="#9AA1A6"/></g>
+<g filter="url(#sh2)"><rect x="330" y="690" width="170" height="70" rx="16" fill="#fff"/>
+ <circle cx="375" cy="725" r="12" fill="#D8DCDF"/><circle cx="415" cy="725" r="9" fill="#C9CED2"/><circle cx="450" cy="725" r="12" fill="#D8DCDF"/>
+ <path d="M369,725 h12 M375,719 v12 M444,725 h12 M450,719 v12" stroke="#8d949a" stroke-width="2.6"/></g>
+<!-- plant -->
+<g transform="translate(1150,770) scale(0.8)"><path d="M0,-80 C-40,-120 -50,-170 -20,-200 C10,-170 15,-120 0,-80Z" fill="#6F8D5A"/>
+ <path d="M0,-80 C40,-110 60,-160 36,-190 C6,-160 -6,-120 0,-80Z" fill="#88A471"/>
+ <path d="M-45,-10 L45,-10 L34,-90 L-34,-90Z" transform="translate(0,10)" fill="#F28B27"/></g>
+<!-- trust cards -->
+<g transform="translate(70,96)" filter="url(#sh)">
+ <rect width="380" height="110" rx="24" fill="#fff"/>
+ <g transform="translate(14,14)"><rect width="64" height="64" rx="18" fill="#E5EDDA"/>
+ <path d="M32,12 L50,19 V33 C50,44 42,52 32,56 C22,52 14,44 14,33 V19 Z" fill="#3F9B5B"/>
+ <path d="M23,33 L30,40 L42,26" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>
+ <text x="92" y="51.0" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="800" font-size="24" fill="#2B2F33">Verified technicians</text>
+ <text x="92" y="81.0" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="500" font-size="18" fill="#6a7168">ID &amp; skills checked</text></g>
+<g transform="translate(730,96)" filter="url(#sh)"><rect width="390" height="134" rx="24" fill="#fff"/>
+ <text x="28" y="46" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="800" font-size="24" fill="#2B2F33">Live job tracking</text>
+ <g transform="translate(0,84)"><circle cx="30" cy="0" r="9" fill="#F28B27"/><rect x="39" y="-2.5" width="44" height="5" rx="2.5" fill="#F28B27"/><circle cx="92" cy="0" r="9" fill="#F28B27"/><rect x="101" y="-2.5" width="44" height="5" rx="2.5" fill="#F28B27"/><circle cx="154" cy="0" r="9" fill="#F28B27"/><rect x="163" y="-2.5" width="44" height="5" rx="2.5" fill="#D9DDD3"/><circle cx="216" cy="0" r="9" fill="#D9DDD3"/></g>
+ <text x="28" y="116" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="600" font-size="14" fill="#6a7168">Requested  ›  Accepted  ›  In Progress  ›  Done</text></g>
+<g transform="translate(40,440)" filter="url(#sh)">
+ <rect width="320" height="110" rx="24" fill="#fff"/>
+ <g transform="translate(14,14)"><rect width="64" height="64" rx="18" fill="#E5EDDA"/>
+ <rect x="16" y="28" width="32" height="22" rx="6" fill="#2B2F33"/>
+ <path d="M23,28 V22 a9,9 0 0 1 18,0 V28" fill="none" stroke="#2B2F33" stroke-width="5"/>
+ <circle cx="32" cy="39" r="3.6" fill="#F28B27"/></g>
+ <text x="92" y="51.0" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="800" font-size="24" fill="#2B2F33">Pay after service</text>
+ <text x="92" y="81.0" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="500" font-size="18" fill="#6a7168">Only when it's fixed</text></g>
+</svg>

@@ -24,7 +24,7 @@ export default function Hero() {
 
         {/* real photo: put your own picture at client/public/hero.jpg */}
         <img
-          src="/hero.jpg"
+          src="/hero.svg"
           alt="Technician repairing a smartphone"
           className="h-72 w-full rounded-2xl object-cover shadow-2xl sm:h-96"
         />
