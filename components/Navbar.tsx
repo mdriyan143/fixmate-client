@@ -28,7 +28,7 @@ export default function Navbar() {
 
   async function signOut() {
     await authClient.signOut();
-    toast.success("Signed out", { duration: 3000 });
+    toast.success("Signed out", { duration: 2500 });
     setDropOpen(false);
     setMenuOpen(false);
     router.push("/");

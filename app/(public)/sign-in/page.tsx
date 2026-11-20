@@ -35,7 +35,7 @@ export default function SignInPage() {
     setBusy(false);
     if (error) return toast.error(error.message || "Wrong email or password", { duration: 2500 });
 
-    toast.success("Signed in successfully");
+    toast.success("Signed in successfully", { duration: 2500 });
     // go back to the page the user wanted, otherwise to their own dashboard
     const redirect = new URLSearchParams(window.location.search).get("redirect");
     router.push(redirect?.startsWith("/") && !redirect.startsWith("//") ? redirect : "/dashboard");
