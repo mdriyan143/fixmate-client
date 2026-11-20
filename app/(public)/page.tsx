@@ -1,3 +1,11 @@
+import Hero from "@/components/home/Hero";
+import FeaturedServices from "@/components/home/FeaturedServices";
+
 export default function HomePage() {
-  return <div className="page-wrap section-gap">Home</div>;
+  return (
+    <>
+      <Hero />
+      <FeaturedServices />
+    </>
+  );
 }
