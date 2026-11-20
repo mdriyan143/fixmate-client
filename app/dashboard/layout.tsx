@@ -60,7 +60,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   async function signOut() {
     await authClient.signOut();
-    toast.success("Signed out");
+    toast.success("Signed out", { duration: 2500 });
     router.push("/");
   }
 
