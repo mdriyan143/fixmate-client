@@ -34,7 +34,7 @@ export interface Service {
   serviceMode: ServiceMode;
   serviceArea: string;
   technicianName: string;
-  technicianEmail: string;
+  technicianEmail?: string;
   approvalStatus: ApprovalStatus;
   isAvailable: boolean;
   createdAt: string;
