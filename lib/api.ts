@@ -1,6 +1,6 @@
 import { authClient } from "./auth-client";
 
-const API = process.env.NEXT_PUBLIC_API_URL;
+const API = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/+$/, "");
 
 interface ApiOptions {
   method?: "GET" | "POST" | "PATCH" | "DELETE";
