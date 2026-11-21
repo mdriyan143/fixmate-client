@@ -4,6 +4,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@media print {
+  header, aside, footer, .no-print { display: none !important; }
+}
+
+
 /* Warm greys and tints: every slate-* and orange-* class in the app now follows the FixMate palette */
 @theme {
   --color-slate-50: #faf9f5;
