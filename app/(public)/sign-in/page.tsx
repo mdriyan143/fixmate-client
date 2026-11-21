@@ -17,10 +17,14 @@ export default function SignInPage() {
   const [busy, setBusy] = useState(false);
   const [showPass, setShowPass] = useState(false);
 
-  // already logged in? go to the dashboard
   useEffect(() => {
-    if (session?.user) router.replace("/dashboard");
+    if (!session?.user) return;
+    const redirect = new URLSearchParams(window.location.search).get("redirect");
+    router.replace(
+      redirect && redirect.startsWith("/") && !redirect.startsWith("//") ? redirect : "/dashboard"
+    );
   }, [session, router]);
+
 
   async function submit(ev: FormEvent<HTMLFormElement>) {
     ev.preventDefault();
