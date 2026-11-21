@@ -8,7 +8,6 @@
   header, aside, footer, .no-print { display: none !important; }
 }
 
-
 /* Warm greys and tints: every slate-* and orange-* class in the app now follows the FixMate palette */
 @theme {
   --color-slate-50: #faf9f5;
@@ -251,3 +250,44 @@ body {
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 }
+
+/* dark mode: same variables, new values (must stay AFTER :root) */
+.dark {
+  --soft: #1b1d20;
+  --navy: #f1efe8;          /* text becomes light */
+  --sage: #2f3a2a;
+  --sage-soft: #2a3326;
+  --line: #3a3d42;
+  --accent-ink: #f5a554;
+  --background: oklch(0.22 0 0);
+  --foreground: oklch(0.95 0 0);
+  --popover: oklch(0.22 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+  --border: oklch(0.32 0 0);
+
+  /* the slate scale is flipped: light text, dark backgrounds */
+  --color-slate-50: #1b1d20;
+  --color-slate-100: #26292d;
+  --color-slate-200: #3a3d42;
+  --color-slate-300: #4a4d52;
+  --color-slate-400: #8d8c86;
+  --color-slate-500: #a9a79f;
+  --color-slate-600: #c4c2ba;
+  --color-slate-700: #d9d7cf;
+  --color-slate-800: #f1efe8;
+
+  /* selected role card and similar light orange tints */
+  --color-orange-50: #3a2a18;
+  --color-orange-100: #4a3520;
+}
+.dark .card-box, .dark .input-box, .dark .btn-ghost, .dark .bg-white { background: #26292d; }
+.dark .input-box, .dark .btn-ghost { border-color: #3a3d42; color: #f1efe8; }
+.dark .btn-main { color: #2b2d31; }   /* keep dark text on the orange button */
+.dark .table-box th { background: #2f3236; color: #c4c2ba; }
+.dark .table-box tbody tr:hover { background: #2b2e32; }
+.dark .skeleton { background: linear-gradient(90deg, #2b2e32, #34373c, #2b2e32); background-size: 200% 100%; }
+
+/* fixed dark greys that would be unreadable on a dark page */
+.dark .section-sub { color: #a9a79f; }
+.dark .input-label { color: #d9d7cf; }
+.dark .badge-role { color: #c9d9b8; }

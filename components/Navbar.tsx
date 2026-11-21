@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { toast } from "sonner";
 import Logo from "./Logo";
 import Avatar from "./Avatar";
+import ThemeToggle from "./ThemeToggle";
 import { authClient } from "@/lib/auth-client";
 import { dashboardPath } from "@/lib/constants";
 
@@ -57,6 +58,7 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          <ThemeToggle />
           {!user ? (
             <>
               <Link href="/sign-in" className="btn-ghost btn-small">Sign In</Link>
@@ -87,6 +89,7 @@ export default function Navbar() {
 
       {menuOpen && (
         <div className="space-y-3 border-t border-[var(--line)] bg-[var(--soft)] px-4 py-4 md:hidden">
+          <ThemeToggle />
           {links.map(([label, href]) => (
             <Link key={href} href={href} onClick={() => setMenuOpen(false)} className={`block ${linkClass(href)}`}>{label}</Link>
           ))}
