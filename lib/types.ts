@@ -59,6 +59,7 @@ export interface Booking {
   status: BookingStatus;
   finalAmount: number;
   paymentStatus: PaymentStatus;
+  statusHistory?: { status: string; changedAt: string }[];
 }
 
 export interface Payment {

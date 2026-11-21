@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import StatusBadge from "@/components/StatusBadge";
+import StatusTracker from "@/components/StatusTracker";
 import ConfirmModal from "@/components/ConfirmModal";
 import EmptyState from "@/components/EmptyState";
 import { api, getErrorMessage } from "@/lib/api";
@@ -56,6 +57,7 @@ export default function MyBookings() {
                     <img src={b.serviceImage} alt="" className="h-10 w-14 rounded object-cover" />
                     <span className="font-medium">{b.serviceTitle}</span>
                   </div>
+                  <StatusTracker booking={b} />
                 </td>
                 <td>{b.technicianName}</td>
                 <td>{new Date(b.preferredDate).toLocaleDateString()}</td>
