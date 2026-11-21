@@ -14,6 +14,14 @@ export const auth = betterAuth({
   trustedOrigins: (process.env.TRUSTED_ORIGINS || "").split(",").filter(Boolean),
   emailAndPassword: { enabled: true, minPasswordLength: 6 },
 
+  // Google login: BetterAuth uses these two keys
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+  },
+
   // BetterAuth's user collection IS our "users" collection
   user: {
     modelName: "users",

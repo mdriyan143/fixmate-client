@@ -9,6 +9,12 @@ import { authClient } from "@/lib/auth-client";
 
 type SignInForm = { email: string; password: string };
 
+// the page the user wanted before signing in, otherwise the dashboard
+function getRedirect() {
+  const redirect = new URLSearchParams(window.location.search).get("redirect");
+  return redirect && redirect.startsWith("/") && !redirect.startsWith("//") ? redirect : "/dashboard";
+}
+
 export default function SignInPage() {
   const router = useRouter();
   const { data: session } = authClient.useSession();
@@ -17,14 +23,10 @@ export default function SignInPage() {
   const [busy, setBusy] = useState(false);
   const [showPass, setShowPass] = useState(false);
 
+  // logged in (by email or Google)? go to the wanted page or the dashboard
   useEffect(() => {
-    if (!session?.user) return;
-    const redirect = new URLSearchParams(window.location.search).get("redirect");
-    router.replace(
-      redirect && redirect.startsWith("/") && !redirect.startsWith("//") ? redirect : "/dashboard"
-    );
+    if (session?.user) router.replace(getRedirect());
   }, [session, router]);
-
 
   async function submit(ev: FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -40,9 +42,11 @@ export default function SignInPage() {
     if (error) return toast.error(error.message || "Wrong email or password", { duration: 2500 });
 
     toast.success("Signed in successfully", { duration: 2500 });
-    // go back to the page the user wanted, otherwise to their own dashboard
-    const redirect = new URLSearchParams(window.location.search).get("redirect");
-    router.push(redirect?.startsWith("/") && !redirect.startsWith("//") ? redirect : "/dashboard");
+    // the useEffect above does the redirect
+  }
+
+  async function googleSignIn() {
+    await authClient.signIn.social({ provider: "google", callbackURL: getRedirect() });
   }
 
   return (
@@ -79,6 +83,14 @@ export default function SignInPage() {
         </div>
 
         <button className="btn-main w-full" disabled={busy}>{busy ? "Signing in..." : "Sign In"}</button>
+
+        <div className="flex items-center gap-3 text-xs text-slate-400">
+          <span className="h-px flex-1 bg-slate-200" /> or <span className="h-px flex-1 bg-slate-200" />
+        </div>
+        <button type="button" onClick={googleSignIn} className="btn-ghost w-full">
+          <span className="font-bold text-[#4285F4]">G</span> Continue with Google
+        </button>
+
         <p className="text-center text-sm text-slate-500">
           New to FixMate? <Link href="/sign-up" className="font-semibold text-[var(--accent-ink)]">Sign Up</Link>
         </p>

@@ -55,6 +55,10 @@ export default function SignUpPage() {
     router.push(dashboardPath(form.role));
   }
 
+  async function googleSignUp() {
+    await authClient.signIn.social({ provider: "google", callbackURL: "/dashboard" });
+  }
+
   return (
     <div className="page-wrap grid place-items-center py-14">
       <form onSubmit={submit} noValidate className="card-box w-full max-w-md space-y-4 p-6 sm:p-8">
@@ -112,6 +116,15 @@ export default function SignUpPage() {
         </div>
 
         <button className="btn-main w-full" disabled={busy}>{busy ? "Creating..." : "Sign Up"}</button>
+
+        <div className="flex items-center gap-3 text-xs text-slate-400">
+          <span className="h-px flex-1 bg-slate-200" /> or <span className="h-px flex-1 bg-slate-200" />
+        </div>
+        <button type="button" onClick={googleSignUp} className="btn-ghost w-full">
+          <span className="font-bold text-[#4285F4]">G</span> Continue with Google
+        </button>
+        <p className="text-center text-xs text-slate-500">Google sign up creates a customer account.</p>
+
         <p className="text-center text-sm text-slate-500">
           Already have an account? <Link href="/sign-in" className="font-semibold text-[var(--accent-ink)]">Sign In</Link>
         </p>
