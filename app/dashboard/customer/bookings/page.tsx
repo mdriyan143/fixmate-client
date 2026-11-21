@@ -5,6 +5,7 @@ import StatusBadge from "@/components/StatusBadge";
 import StatusTracker from "@/components/StatusTracker";
 import ConfirmModal from "@/components/ConfirmModal";
 import EmptyState from "@/components/EmptyState";
+import Modal from "@/components/Modal";
 import { api, getErrorMessage } from "@/lib/api";
 import { useApi } from "@/lib/useApi";
 import type { Booking } from "@/lib/types";
@@ -13,6 +14,11 @@ export default function MyBookings() {
   const { data, loading, reload } = useApi<Booking[]>("/api/bookings/my");
   const [cancelId, setCancelId] = useState<string | null>(null);
   const [payingId, setPayingId] = useState<string | null>(null);
+
+  // review window: which booking is being rated, the stars and the text
+  const [reviewing, setReviewing] = useState<Booking | null>(null);
+  const [stars, setStars] = useState(5);
+  const [text, setText] = useState("");
 
   async function cancel() {
     try {
@@ -33,6 +39,20 @@ export default function MyBookings() {
     } catch (err) {
       toast.error(getErrorMessage(err));
       setPayingId(null);
+    }
+  }
+
+  async function sendReview() {
+    if (!reviewing) return;
+    try {
+      await api(`/api/bookings/${reviewing._id}/review`, { method: "PATCH", body: { rating: stars, review: text } });
+      toast.success("Thanks for your review");
+      setReviewing(null);
+      setStars(5);
+      setText("");
+      reload();
+    } catch (err) {
+      toast.error(getErrorMessage(err));
     }
   }
 
@@ -73,7 +93,12 @@ export default function MyBookings() {
                       {payingId === b._id ? "Opening..." : "Pay Now"}
                     </button>
                   )}
-                  {b.paymentStatus === "paid" && <StatusBadge value="paid" />}
+                  {b.paymentStatus === "paid" &&
+                    (b.rating ? (
+                      <span className="text-sm font-semibold text-[var(--accent-ink)]">★ {b.rating}</span>
+                    ) : (
+                      <button className="btn-ghost btn-small" onClick={() => setReviewing(b)}>Rate</button>
+                    ))}
                 </td>
               </tr>
             ))}
@@ -89,6 +114,18 @@ export default function MyBookings() {
         onConfirm={cancel}
         onCancel={() => setCancelId(null)}
       />
+
+      <Modal open={Boolean(reviewing)} onClose={() => setReviewing(null)} title="Rate this service">
+        <label className="input-label">Stars</label>
+        <select className="input-box" value={stars} onChange={(e) => setStars(Number(e.target.value))}>
+          {[5, 4, 3, 2, 1].map((n) => (
+            <option key={n} value={n}>{n} star{n > 1 ? "s" : ""}</option>
+          ))}
+        </select>
+        <label className="input-label mt-3">Short review</label>
+        <textarea className="input-box" rows={3} value={text} onChange={(e) => setText(e.target.value)} placeholder="How was the repair?" />
+        <button className="btn-main mt-4 w-full" onClick={sendReview}>Submit review</button>
+      </Modal>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MapPin } from "lucide-react";
+import RatingLine from "./RatingLine";
 import type { Service } from "@/lib/types";
 
 export default function ServiceCard({ s }: { s: Service }) {
@@ -14,6 +15,7 @@ export default function ServiceCard({ s }: { s: Service }) {
         <h3 className="line-clamp-1 text-lg font-bold text-[var(--navy)]">{s.title}</h3>
         <p className="mt-1 flex items-center gap-1 text-sm text-slate-500"><MapPin size={14} /> {s.serviceArea}</p>
         <p className="mt-1 text-sm text-slate-500">By {s.technicianName}</p>
+        <RatingLine avg={s.avgRating} count={s.reviewCount} />
         <div className="mt-auto flex items-center justify-between pt-4">
           <p className="font-bold text-[var(--navy)]">
             <span className="text-xs font-normal text-slate-500">From </span>${s.basePrice}

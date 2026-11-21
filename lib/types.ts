@@ -39,7 +39,10 @@ export interface Service {
   isAvailable: boolean;
   createdAt: string;
   technician?: TechnicianInfo | null; // only on GET /api/services/:id
+  avgRating?: number;
+  reviewCount?: number;
 }
+
 
 export interface Booking {
   _id: string;
@@ -60,6 +63,8 @@ export interface Booking {
   finalAmount: number;
   paymentStatus: PaymentStatus;
   statusHistory?: { status: string; changedAt: string }[];
+  rating?: number;
+  review?: string;
 }
 
 export interface Payment {

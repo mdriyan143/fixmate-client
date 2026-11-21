@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Clock, MapPin, Wrench } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import RequestRepair from "@/components/RequestRepair";
+import RatingLine from "@/components/RatingLine";
 import { getJSON } from "@/lib/server-api";
 import type { Service } from "@/lib/types";
 
@@ -23,6 +24,9 @@ export default async function ServiceDetailsPage({ params }: { params: Promise<{
         <img src={s.image} alt={s.title} className="h-72 w-full rounded-2xl object-cover sm:h-96" />
         <span className="badge badge-role mt-5">{s.category}</span>
         <h1 className="mt-2 text-3xl font-extrabold text-[var(--navy)]">{s.title}</h1>
+        <div className="mt-2">
+          <RatingLine avg={s.avgRating} count={s.reviewCount} showEmpty />
+        </div>
         <p className="mt-4 leading-relaxed text-slate-600">{s.description}</p>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
