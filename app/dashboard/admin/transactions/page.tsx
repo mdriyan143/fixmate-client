@@ -1,4 +1,5 @@
 "use client";
+import { CreditCard, Wallet } from "lucide-react";
 import StatCard from "@/components/StatCard";
 import EmptyState from "@/components/EmptyState";
 import { useApi } from "@/lib/useApi";
@@ -15,11 +16,11 @@ export default function Transactions() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-[var(--navy)]">Transactions</h1>
       <div className="max-w-xs">
-        <StatCard label="Total Revenue" value={`$${revenue.toFixed(2)}`} icon="💰" />
+        <StatCard label="Total Revenue" value={`$${revenue.toFixed(2)}`} icon={Wallet} />
       </div>
 
       {payments.length === 0 ? (
-        <EmptyState icon="💳" title="No transactions yet" />
+        <EmptyState icon={CreditCard} title="No transactions yet" />
       ) : (
         <div className="card-box table-box">
           <table>

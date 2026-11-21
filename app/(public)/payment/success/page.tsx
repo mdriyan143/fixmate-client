@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { CircleCheck, TriangleAlert } from "lucide-react";
 import { api, getErrorMessage } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";
 import type { Payment } from "@/lib/types";
@@ -17,7 +18,7 @@ export default function PaymentSuccess() {
 
   useEffect(() => {
     if (isPending) return;
-    
+
     if (!email) {
       // after login the customer comes back here, with the Stripe session_id still in the address
       const back = window.location.pathname + window.location.search;
@@ -47,7 +48,9 @@ export default function PaymentSuccess() {
       <div className="card-box w-full max-w-md p-8 text-center">
         {error ? (
           <>
-            <div className="text-5xl">⚠️</div>
+            <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-amber-50 text-amber-500">
+              <TriangleAlert size={34} />
+            </div>
             <h1 className="mt-3 text-xl font-bold text-[var(--navy)]">We could not confirm the payment</h1>
             <p className="mt-1 text-sm text-slate-500">{error}</p>
           </>
@@ -55,7 +58,9 @@ export default function PaymentSuccess() {
           <div className="skeleton h-32" />
         ) : (
           <>
-            <div className="text-5xl">✅</div>
+            <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-green-50 text-green-600">
+              <CircleCheck size={34} />
+            </div>
             <h1 className="mt-3 text-2xl font-bold text-[var(--navy)]">Payment successful</h1>
             <p className="mt-4 text-4xl font-extrabold text-[var(--accent-ink)]">${payment.amount}</p>
             <p className="mt-2 text-sm text-slate-500">{payment.serviceTitle}</p>

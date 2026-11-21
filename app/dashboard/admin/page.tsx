@@ -1,4 +1,5 @@
 "use client";
+import { Briefcase, Hourglass, Users } from "lucide-react";
 import StatCard from "@/components/StatCard";
 import StatusChart from "@/components/StatusChart";
 import { useApi } from "@/lib/useApi";
@@ -16,9 +17,9 @@ export default function AdminOverview() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-[var(--navy)]">Admin Overview</h1>
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard label="Total Users" value={userList.length} icon="👥" />
-        <StatCard label="Total Technicians" value={userList.filter((u) => u.role === "technician").length} icon="🧰" />
-        <StatCard label="Pending Services" value={(services.data || []).filter((s) => s.approvalStatus === "pending").length} icon="⏳" />
+        <StatCard label="Total Users" value={userList.length} icon={Users} />
+        <StatCard label="Total Technicians" value={userList.filter((u) => u.role === "technician").length} icon={Briefcase} />
+        <StatCard label="Pending Services" value={(services.data || []).filter((s) => s.approvalStatus === "pending").length} icon={Hourglass} />
       </div>
       <div className="grid gap-6 lg:grid-cols-2">
         <StatusChart title="All bookings by status" data={countBy(bookings.data || [], "status")} />

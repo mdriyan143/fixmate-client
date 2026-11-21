@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { toast } from "sonner";
-import { CalendarDays, MapPin, User } from "lucide-react";
+import { CalendarDays, MapPin, Star, User } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import StatusTracker from "@/components/StatusTracker";
 import ConfirmModal from "@/components/ConfirmModal";
@@ -116,7 +116,9 @@ export default function MyBookings() {
                   )}
                   {b.paymentStatus === "paid" &&
                     (b.rating ? (
-                      <span className="text-sm font-semibold text-[var(--accent-ink)]">★ {b.rating} rated</span>
+                      <span className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent-ink)]">
+                        <Star size={14} className="fill-current" /> {b.rating} rated
+                      </span>
                     ) : (
                       <button className="btn-ghost btn-small" onClick={() => setReviewing(b)}>Rate</button>
                     ))}

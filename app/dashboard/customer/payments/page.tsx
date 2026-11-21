@@ -1,7 +1,7 @@
-
 "use client";
 
 import Link from "next/link";
+import { CreditCard } from "lucide-react";
 import EmptyState from "@/components/EmptyState";
 import { useApi } from "@/lib/useApi";
 import type { Payment } from "@/lib/types";
@@ -14,7 +14,7 @@ export default function PaymentHistory() {
   if (!data?.length) {
     return (
       <EmptyState
-        icon="💳"
+        icon={CreditCard}
         title="No payments yet"
         text="Paid jobs will appear here."
         href="/dashboard/customer/bookings"

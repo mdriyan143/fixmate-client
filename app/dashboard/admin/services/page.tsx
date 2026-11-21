@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { toast } from "sonner";
+import { BadgeCheck } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import EmptyState from "@/components/EmptyState";
 import { api, getErrorMessage } from "@/lib/api";
@@ -36,7 +37,7 @@ export default function ServiceApproval() {
       {loading ? (
         <div className="skeleton h-64" />
       ) : !data?.length ? (
-        <EmptyState icon="🎉" title="Nothing here" text="No services match this filter." />
+       <EmptyState icon={BadgeCheck} title="Nothing here" text="No services match this filter." />
       ) : (
         <div className="card-box table-box">
           <table>

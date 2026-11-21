@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CircleCheck } from "lucide-react";
 import { STEPS } from "@/lib/constants";
 
 export const metadata: Metadata = { title: "How It Works | FixMate" };
@@ -17,10 +18,12 @@ export default function AboutPage() {
       <p className="section-sub">Finding a trustworthy repair technician should be easy. Every job on FixMate has a clear status, and payment happens only after the work is delivered.</p>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {STEPS.map(([icon, title, text], i) => (
+        {STEPS.map(([Icon, title, text], i) => (
           <div key={title} className="card-box p-6 text-center">
-            <div className="text-4xl">{icon}</div>
-            <p className="mt-2 text-xs font-bold text-[var(--accent-ink)]">STEP {i + 1}</p>
+            <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-orange-100 text-[var(--accent-ink)]">
+              <Icon size={28} strokeWidth={1.75} />
+            </div>
+            <p className="mt-3 text-xs font-bold text-[var(--accent-ink)]">STEP {i + 1}</p>
             <h3 className="font-bold text-[var(--navy)]">{title}</h3>
             <p className="mt-1 text-sm text-slate-500">{text}</p>
           </div>
@@ -32,7 +35,11 @@ export default function AboutPage() {
           <div key={title} className="card-box p-6">
             <h3 className="mb-3 text-lg font-bold text-[var(--navy)]">For {title}</h3>
             <ul className="space-y-2 text-sm text-slate-600">
-              {list.map((item) => <li key={item}>✅ {item}</li>)}
+              {list.map((item) => (
+                <li key={item} className="flex items-start gap-2">
+                  <CircleCheck size={18} className="mt-0.5 shrink-0 text-[var(--accent-ink)]" /> {item}
+                </li>
+              ))}
             </ul>
           </div>
         ))}

@@ -4,6 +4,7 @@ import StatusBadge from "@/components/StatusBadge";
 import EmptyState from "@/components/EmptyState";
 import { useApi } from "@/lib/useApi";
 import type { Booking } from "@/lib/types";
+import { Inbox } from "lucide-react";
 
 const filters: [value: string, label: string][] = [
   ["all", "All"], ["requested", "Requested"], ["accepted", "Accepted"], ["in-progress", "In Progress"],
@@ -26,7 +27,7 @@ export default function AllBookings() {
       {loading ? (
         <div className="skeleton h-64" />
       ) : !data?.length ? (
-        <EmptyState icon="📭" title="No bookings found" />
+        <EmptyState icon={Inbox} title="No bookings found" />
       ) : (
         <div className="card-box table-box">
           <table>

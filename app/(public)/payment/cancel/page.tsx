@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { CircleX } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
 export default function PaymentCancel() {
@@ -23,7 +24,9 @@ export default function PaymentCancel() {
   return (
     <div className="page-wrap grid place-items-center py-16">
       <div className="card-box w-full max-w-md p-8 text-center">
-        <div className="text-5xl">😕</div>
+        <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-red-50 text-red-500">
+          <CircleX size={34} />
+        </div>
         <h1 className="mt-3 text-2xl font-bold text-[var(--navy)]">Payment cancelled</h1>
         <p className="mt-2 text-sm text-slate-500">No money was taken. You can pay whenever you are ready.</p>
         <Link href="/dashboard/customer/bookings" className="btn-main mt-6">Try Again</Link>

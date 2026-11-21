@@ -1,3 +1,5 @@
+import { CircleCheck } from "lucide-react";
+
 const stats: [value: string, label: string][] = [
   ["500+", "Verified technicians"],
   ["12k+", "Jobs completed"],
@@ -17,7 +19,11 @@ export default function WhyChoose() {
         <div>
           <h2 className="text-3xl font-bold">Why choose FixMate?</h2>
           <ul className="mt-5 space-y-3 text-[var(--navy)]/85">
-            {points.map((p) => <li key={p}>✅ {p}</li>)}
+            {points.map((p) => (
+              <li key={p} className="flex items-start gap-2">
+                <CircleCheck size={20} className="mt-0.5 shrink-0 text-[var(--accent-ink)]" /> {p}
+              </li>
+            ))}
           </ul>
         </div>
         <div className="grid grid-cols-2 gap-4">

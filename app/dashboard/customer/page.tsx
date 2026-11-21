@@ -1,4 +1,5 @@
 "use client";
+import { ClipboardList, CircleCheck, Wrench } from "lucide-react";
 import StatCard from "@/components/StatCard";
 import StatusChart from "@/components/StatusChart";
 import { useApi } from "@/lib/useApi";
@@ -14,9 +15,9 @@ export default function CustomerOverview() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-[var(--navy)]">Customer Overview</h1>
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard label="Total Requests" value={list.length} icon="📋" />
-        <StatCard label="Active Jobs" value={list.filter((b) => ACTIVE.includes(b.status)).length} icon="🛠️" />
-        <StatCard label="Completed Jobs" value={list.filter((b) => b.status === "completed").length} icon="✅" />
+        <StatCard label="Total Requests" value={list.length} icon={ClipboardList} />
+        <StatCard label="Active Jobs" value={list.filter((b) => ACTIVE.includes(b.status)).length} icon={Wrench} />
+        <StatCard label="Completed Jobs" value={list.filter((b) => b.status === "completed").length} icon={CircleCheck} />
       </div>
       <StatusChart title="My bookings by status" data={countBy(list, "status")} />
     </div>
