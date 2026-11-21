@@ -1,5 +1,13 @@
 import { Search } from "lucide-react";
 
+// one photo per service, so the hero shows that FixMate repairs many things
+const photos: [src: string, label: string][] = [
+  ["/hero-phone.jpg", "Smartphone"],
+  ["/hero-laptop.jpg", "Laptop & PC"],
+  ["/hero-ac.jpg", "AC"],
+  ["/hero-fridge.jpg", "Refrigerator"],
+];
+
 export default function Hero() {
   return (
     <section className="bg-[var(--sage)] text-[var(--navy)]">
@@ -22,12 +30,16 @@ export default function Hero() {
           </form>
         </div>
 
-        {/* real photo: put your own picture at client/public/hero.jpg */}
-        <img
-          src="/hero.svg"
-          alt="Technician repairing a smartphone"
-          className="h-72 w-full rounded-2xl object-cover shadow-2xl sm:h-96"
-        />
+        <div className="grid grid-cols-2 gap-3">
+          {photos.map(([src, label]) => (
+            <div key={label} className="relative h-36 overflow-hidden rounded-2xl shadow-lg sm:h-44 lg:h-52">
+              <img src={src} alt={`${label} repair`} className="h-full w-full object-cover" />
+              <span className="absolute bottom-2 left-2 rounded-full bg-[var(--soft)] px-3 py-1 text-xs font-semibold text-[var(--navy)]">
+                {label}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
