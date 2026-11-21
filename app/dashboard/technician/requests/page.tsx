@@ -21,14 +21,22 @@ export default function Requests() {
   const [completing, setCompleting] = useState<Booking | null>(null);
   const [amount, setAmount] = useState("");
 
-  async function setStatus(id: string, status: BookingStatus, extra: { finalAmount?: number } = {}) {
+    async function setStatus(id: string, status: BookingStatus, extra: { finalAmount?: number } = {}) {
     try {
       await api(`/api/bookings/${id}/status`, { method: "PATCH", body: { status, ...extra } });
       toast.success(`Job marked as ${status}`);
       reload();
+      return true;
     } catch (err) {
       toast.error(getErrorMessage(err));
+      return false;
     }
+  }
+
+  async function completeJob() {
+    if (!completing) return;
+    const ok = await setStatus(completing._id, "completed", { finalAmount: Number(amount) });
+    if (ok) setCompleting(null); // stays open on error so the technician can fix the amount
   }
 
   if (loading) return <div className="skeleton h-64" />;
