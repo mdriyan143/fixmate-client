@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
+import { FcGoogle } from "react-icons/fc";
 
 type SignInForm = { email: string; password: string };
 
@@ -87,8 +88,8 @@ export default function SignInPage() {
         <div className="flex items-center gap-3 text-xs text-slate-400">
           <span className="h-px flex-1 bg-slate-200" /> or <span className="h-px flex-1 bg-slate-200" />
         </div>
-        <button type="button" onClick={googleSignIn} className="btn-ghost w-full">
-          <span className="font-bold text-[#4285F4]">G</span> Continue with Google
+        <button type="button" onClick={googleSignIn} className="btn-ghost flex w-full items-center justify-center gap-3">
+          <FcGoogle size={22} /> Continue with Google
         </button>
 
         <p className="text-center text-sm text-slate-500">

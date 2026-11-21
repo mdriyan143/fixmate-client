@@ -7,6 +7,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { dashboardPath } from "@/lib/constants";
+import { FcGoogle } from "react-icons/fc";
 
 type SignUpRole = "customer" | "technician"; // admin is not an option
 type TextField = "name" | "email" | "password";
@@ -120,8 +121,8 @@ export default function SignUpPage() {
         <div className="flex items-center gap-3 text-xs text-slate-400">
           <span className="h-px flex-1 bg-slate-200" /> or <span className="h-px flex-1 bg-slate-200" />
         </div>
-        <button type="button" onClick={googleSignUp} className="btn-ghost w-full">
-          <span className="font-bold text-[#4285F4]">G</span> Continue with Google
+        <button type="button" onClick={googleSignUp} className="btn-ghost flex w-full items-center justify-center gap-3">
+          <FcGoogle size={22} /> Continue with Google
         </button>
         <p className="text-center text-xs text-slate-500">Google sign up creates a customer account.</p>
 
