@@ -14,7 +14,7 @@ export default function PaymentCancel() {
   // customer-only page
   useEffect(() => {
     if (isPending) return;
-    if (!email) router.replace("/sign-in");
+    if (!email) router.replace("/sign-in?redirect=/payment/cancel");
     else if (role !== "customer") router.replace("/dashboard");
   }, [isPending, email, role, router]);
 
