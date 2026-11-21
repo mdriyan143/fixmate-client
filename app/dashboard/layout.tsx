@@ -15,6 +15,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { authClient } from "@/lib/auth-client";
 import { dashboardPath } from "@/lib/constants";
 import type { Role } from "@/lib/types";
+import { clearToken } from "@/lib/api";
 
 type MenuItem = [label: string, href: string, icon: LucideIcon];
 
@@ -62,6 +63,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   async function signOut() {
     await authClient.signOut();
+    clearToken()
     toast.success("Signed out", { duration: 2000 });
     router.push("/");
   }

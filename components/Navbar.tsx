@@ -9,6 +9,7 @@ import Avatar from "./Avatar";
 import ThemeToggle from "./ThemeToggle";
 import { authClient } from "@/lib/auth-client";
 import { dashboardPath } from "@/lib/constants";
+import { clearToken } from "@/lib/api";
 
 const links: [label: string, href: string][] = [
   ["Home", "/"],
@@ -40,6 +41,7 @@ export default function Navbar() {
 
   async function signOut() {
     await authClient.signOut();
+    clearToken();
     toast.success("Signed out", { duration: 2500 });
     setDropOpen(false);
     setMenuOpen(false);

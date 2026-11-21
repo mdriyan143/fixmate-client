@@ -7,6 +7,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { FcGoogle } from "react-icons/fc";
+import { clearToken } from "@/lib/api";
 
 type SignInForm = { email: string; password: string };
 
@@ -38,6 +39,7 @@ export default function SignInPage() {
     if (Object.keys(e).length) return;
 
     setBusy(true);
+    clearToken()
     const { error } = await authClient.signIn.email(form);
     setBusy(false);
     if (error) return toast.error(error.message || "Wrong email or password", { duration: 2500 });
