@@ -17,10 +17,14 @@ export default function PaymentSuccess() {
 
   useEffect(() => {
     if (isPending) return;
+    
     if (!email) {
-      router.replace("/sign-in");
+      // after login the customer comes back here, with the Stripe session_id still in the address
+      const back = window.location.pathname + window.location.search;
+      router.replace(`/sign-in?redirect=${encodeURIComponent(back)}`);
       return;
     }
+
     if (role !== "customer") {
       router.replace("/dashboard"); // payment pages are customer-only
       return;
