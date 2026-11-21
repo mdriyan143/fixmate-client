@@ -45,6 +45,7 @@ export interface Service {
 
 
 export interface Booking {
+  createdAt: string;
   _id: string;
   serviceId: string;
   serviceTitle: string;
