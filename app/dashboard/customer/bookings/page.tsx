@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { toast } from "sonner";
+import { CalendarDays, MapPin, User } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import StatusTracker from "@/components/StatusTracker";
 import ConfirmModal from "@/components/ConfirmModal";
@@ -62,29 +63,49 @@ export default function MyBookings() {
   }
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-[var(--navy)]">My Bookings</h1>
-      <div className="card-box table-box">
-        <table>
-          <thead>
-            <tr><th>Service</th><th>Technician</th><th>Date</th><th>Price</th><th>Status</th><th>Payment</th><th>Action</th></tr>
-          </thead>
-          <tbody>
-            {data.map((b) => (
-              <tr key={b._id}>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <img src={b.serviceImage} alt="" className="h-10 w-14 rounded object-cover" />
-                    <span className="font-medium">{b.serviceTitle}</span>
+    <div className="space-y-5">
+      <div>
+        <h1 className="text-2xl font-bold text-[var(--navy)]">My Bookings</h1>
+        <p className="text-sm text-slate-500">Track every repair job and pay once it is completed.</p>
+      </div>
+
+      <div className="grid gap-5">
+        {data.map((b) => {
+          const price = b.status === "completed" || b.paymentStatus === "paid" ? b.finalAmount : b.basePrice;
+          return (
+            <div key={b._id} className="card-box overflow-hidden">
+              {/* top: service, badges, price */}
+              <div className="flex flex-wrap items-start justify-between gap-4 p-5">
+                <div className="flex min-w-0 items-center gap-4">
+                  <img src={b.serviceImage} alt="" className="h-16 w-20 shrink-0 rounded-lg object-cover" />
+                  <div className="min-w-0">
+                    <h3 className="truncate text-lg font-bold text-[var(--navy)]">{b.serviceTitle}</h3>
+                    <p className="text-xs text-slate-500">{b.category}</p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <StatusBadge value={b.status} />
+                      <StatusBadge value={b.paymentStatus} />
+                    </div>
                   </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs text-slate-500">{b.status === "completed" || b.paymentStatus === "paid" ? "Final amount" : "Starting price"}</p>
+                  <p className="text-2xl font-extrabold text-[var(--navy)]">${price}</p>
+                </div>
+              </div>
+
+              {/* middle: details */}
+              <div className="grid gap-3 border-t border-[var(--line)] px-5 py-4 text-sm text-slate-600 sm:grid-cols-3">
+                <p className="flex items-center gap-2"><User size={16} className="shrink-0 text-[var(--accent-ink)]" /> {b.technicianName}</p>
+                <p className="flex items-center gap-2"><CalendarDays size={16} className="shrink-0 text-[var(--accent-ink)]" /> {new Date(b.preferredDate).toLocaleDateString()}</p>
+                <p className="flex items-center gap-2"><MapPin size={16} className="shrink-0 text-[var(--accent-ink)]" /> <span className="truncate">{b.address}</span></p>
+              </div>
+
+              {/* bottom: tracker and actions */}
+              <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[var(--line)] bg-[var(--sage-soft)]/40 px-5 py-4">
+                <div className="min-w-0 flex-1">
                   <StatusTracker booking={b} />
-                </td>
-                <td>{b.technicianName}</td>
-                <td>{new Date(b.preferredDate).toLocaleDateString()}</td>
-                <td>${b.status === "completed" ? b.finalAmount : b.basePrice}</td>
-                <td><StatusBadge value={b.status} /></td>
-                <td><StatusBadge value={b.paymentStatus} /></td>
-                <td>
+                </div>
+                <div className="flex items-center gap-2">
                   {b.status === "requested" && (
                     <button className="btn-danger btn-small" onClick={() => setCancelId(b._id)}>Cancel</button>
                   )}
@@ -95,15 +116,15 @@ export default function MyBookings() {
                   )}
                   {b.paymentStatus === "paid" &&
                     (b.rating ? (
-                      <span className="text-sm font-semibold text-[var(--accent-ink)]">★ {b.rating}</span>
+                      <span className="text-sm font-semibold text-[var(--accent-ink)]">★ {b.rating} rated</span>
                     ) : (
                       <button className="btn-ghost btn-small" onClick={() => setReviewing(b)}>Rate</button>
                     ))}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <ConfirmModal
