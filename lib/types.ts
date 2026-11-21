@@ -6,6 +6,15 @@ export type ApprovalStatus = "pending" | "approved" | "rejected";
 export type BookingStatus = "requested" | "accepted" | "rejected" | "in-progress" | "completed" | "cancelled";
 export type PaymentStatus = "unpaid" | "paid";
 
+
+// the paged answer of GET /api/services?page=1
+export interface ServicePage {
+  items: Service[];
+  total: number;
+  pages: number;
+}
+
+
 // the small technician summary the details route adds to a service
 export interface TechnicianInfo {
   name: string;

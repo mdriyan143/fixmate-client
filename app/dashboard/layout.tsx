@@ -10,6 +10,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { toast } from "sonner";
 import Logo from "@/components/Logo";
+import Avatar from "@/components/Avatar";
 import { authClient } from "@/lib/auth-client";
 import { dashboardPath } from "@/lib/constants";
 import type { Role } from "@/lib/types";
@@ -79,12 +80,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       {open && <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setOpen(false)} />}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-[var(--sage)] p-4 text-[var(--navy)] transition-transform lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-[var(--sage)] p-4 text-[var(--navy)] transition-transform lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <Logo light />
-        <nav className="mt-8 flex-1 space-y-1">
+        <nav className="mt-8 flex-1 space-y-1 overflow-y-auto">
           {items.map(([label, href, Icon]) => (
             <Link
               key={href}
@@ -98,9 +99,11 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </Link>
           ))}
         </nav>
-        <button onClick={signOut} className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-[var(--navy)]/80 hover:bg-white/40">
-          <LogOut size={18} /> Sign Out
-        </button>
+        <div className="border-t border-[var(--navy)]/15 pt-3">
+          <button onClick={signOut} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-[var(--navy)]/80 hover:bg-white/40">
+            <LogOut size={18} /> Sign Out
+          </button>
+        </div>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -116,13 +119,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               <p className="text-sm font-semibold leading-tight">{user.name}</p>
               <span className="badge badge-role capitalize">{role}</span>
             </div>
-            {user.image ? (
-              <img src={user.image} alt={user.name} className="h-10 w-10 rounded-full object-cover" />
-            ) : (
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--navy)] font-bold text-white">
-                {user.name?.[0]?.toUpperCase()}
-              </span>
-            )}
+            <Avatar user={user} />
           </div>
         </header>
         <main className="flex-1 p-4 md:p-6">{children}</main>
