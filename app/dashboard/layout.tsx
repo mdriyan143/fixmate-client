@@ -11,6 +11,7 @@ import type { LucideIcon } from "lucide-react";
 import { toast } from "sonner";
 import Logo from "@/components/Logo";
 import Avatar from "@/components/Avatar";
+import ThemeToggle from "@/components/ThemeToggle";
 import { authClient } from "@/lib/auth-client";
 import { dashboardPath } from "@/lib/constants";
 import type { Role } from "@/lib/types";
@@ -80,9 +81,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       {open && <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setOpen(false)} />}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-[var(--sage)] p-4 text-[var(--navy)] transition-transform lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${
-          open ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-[var(--sage)] p-4 text-[var(--navy)] transition-transform lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <Logo light />
         <nav className="mt-8 flex-1 space-y-1 overflow-y-auto">
@@ -91,9 +91,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               key={href}
               href={href}
               onClick={() => setOpen(false)}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium ${
-                pathname === href ? "bg-[var(--accent)] font-semibold text-[var(--navy)] shadow-sm" : "text-[var(--navy)]/80 hover:bg-white/40"
-              }`}
+              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium ${pathname === href ? "bg-[var(--accent)] font-semibold text-[var(--navy)] shadow-sm" : "text-[var(--navy)]/80 hover:bg-white/40"
+                }`}
             >
               <Icon size={18} /> {label}
             </Link>
@@ -115,6 +114,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </Link>
           </div>
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <div className="hidden text-right sm:block">
               <p className="text-sm font-semibold leading-tight">{user.name}</p>
               <span className="badge badge-role capitalize">{role}</span>
