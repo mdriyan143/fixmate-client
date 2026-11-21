@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { toast } from "sonner";
 import { api, getErrorMessage } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";
 import { uploadImage } from "@/lib/upload";
+
 
 type ProfileForm = { name: string; phone: string; area: string; bio: string };
 
@@ -14,6 +15,12 @@ export default function ProfilePage() {
   const [form, setForm] = useState<ProfileForm | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
+  const preview = useMemo(() => (file ? URL.createObjectURL(file) : null), [file]);
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
 
   useEffect(() => {
     if (user && !form) {
@@ -40,7 +47,7 @@ export default function ProfilePage() {
     setBusy(false);
   }
 
-  const photo = file ? URL.createObjectURL(file) : user.image;
+ const photo = preview ?? user.image;
   return (
     <form onSubmit={save} className="card-box mx-auto max-w-2xl space-y-4 p-6">
       <h1 className="text-2xl font-bold text-[var(--navy)]">Update Profile</h1>

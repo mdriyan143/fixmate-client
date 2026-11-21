@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
@@ -7,6 +7,7 @@ import { getErrorMessage } from "@/lib/api";
 import { CATEGORIES, MODES } from "@/lib/constants";
 import { uploadImage } from "@/lib/upload";
 import type { ServiceFormValues } from "@/lib/types";
+
 
 interface ServiceFormProps {
   initial?: Partial<ServiceFormValues>; // filled when editing
@@ -26,6 +27,12 @@ export default function ServiceForm({ initial = {}, onSubmit, submitText, showOw
   });
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
+  const preview = useMemo(() => (file ? URL.createObjectURL(file) : null), [file]);
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
   const set = (key: keyof ServiceFormValues) => (e: FieldEvent) => setForm({ ...form, [key]: e.target.value });
 
   async function submit(e: FormEvent<HTMLFormElement>) {
@@ -92,8 +99,8 @@ export default function ServiceForm({ initial = {}, onSubmit, submitText, showOw
       <div className="sm:col-span-2">
         <label className="input-label">Service Image</label>
         <input type="file" accept="image/*" className="input-box" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
-        {(file || form.image) && (
-          <img src={file ? URL.createObjectURL(file) : form.image} alt="preview" className="mt-3 h-32 rounded-lg object-cover" />
+        {(preview || form.image) && (
+          <img src={preview ?? form.image} alt="preview" className="mt-3 h-32 rounded-lg object-cover" />
         )}
       </div>
       <button className="btn-main sm:col-span-2" disabled={busy}>{busy ? "Saving..." : submitText}</button>
