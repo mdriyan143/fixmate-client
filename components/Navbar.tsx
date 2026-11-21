@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { toast } from "sonner";
 import Logo from "./Logo";
+import Avatar from "./Avatar";
 import { authClient } from "@/lib/auth-client";
 import { dashboardPath } from "@/lib/constants";
 
@@ -21,6 +22,16 @@ export default function Navbar() {
   const user = data?.user;
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropOpen, setDropOpen] = useState(false);
+  const dropRef = useRef<HTMLDivElement>(null);
+
+  // close the dropdown when the user clicks anywhere outside it
+  useEffect(() => {
+    const closeOnOutsideClick = (e: MouseEvent) => {
+      if (dropRef.current && !dropRef.current.contains(e.target as Node)) setDropOpen(false);
+    };
+    document.addEventListener("mousedown", closeOnOutsideClick);
+    return () => document.removeEventListener("mousedown", closeOnOutsideClick);
+  }, []);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
   const linkClass = (href: string) =>
@@ -52,15 +63,9 @@ export default function Navbar() {
               <Link href="/sign-up" className="btn-main btn-small">Sign Up</Link>
             </>
           ) : (
-            <div className="relative">
+            <div className="relative" ref={dropRef}>
               <button onClick={() => setDropOpen(!dropOpen)} className="block">
-                {user.image ? (
-                  <img src={user.image} alt={user.name} className="h-10 w-10 rounded-full object-cover" />
-                ) : (
-                  <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--navy)] font-bold text-white">
-                    {user.name?.[0]?.toUpperCase()}
-                  </span>
-                )}
+                <Avatar user={user} />
               </button>
               {dropOpen && (
                 <div className="card-box absolute right-0 mt-2 w-60 p-3 shadow-lg">
@@ -92,7 +97,12 @@ export default function Navbar() {
             </div>
           ) : (
             <>
-              <p className="font-bold">{user.name} <span className="badge badge-role capitalize">{user.role || "customer"}</span></p>
+              <div className="flex items-center gap-3">
+                <Avatar user={user} />
+                <p className="font-bold">
+                  {user.name} <span className="badge badge-role capitalize">{user.role || "customer"}</span>
+                </p>
+              </div>
               <Link href={dashboardPath(user.role)} onClick={() => setMenuOpen(false)} className="block">Dashboard</Link>
               <Link href="/dashboard/profile" onClick={() => setMenuOpen(false)} className="block">Update Profile</Link>
               <button onClick={signOut} className="text-red-600">Sign Out</button>
