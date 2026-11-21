@@ -21,7 +21,7 @@ export default function Requests() {
   const [completing, setCompleting] = useState<Booking | null>(null);
   const [amount, setAmount] = useState("");
 
-    async function setStatus(id: string, status: BookingStatus, extra: { finalAmount?: number } = {}) {
+  async function setStatus(id: string, status: BookingStatus, extra: { finalAmount?: number } = {}) {
     try {
       await api(`/api/bookings/${id}/status`, { method: "PATCH", body: { status, ...extra } });
       toast.success(`Job marked as ${status}`);
@@ -35,6 +35,7 @@ export default function Requests() {
 
   async function completeJob() {
     if (!completing) return;
+    if (!(Number(amount) > 0)) return toast.error("Enter a final amount above 0");
     const ok = await setStatus(completing._id, "completed", { finalAmount: Number(amount) });
     if (ok) setCompleting(null); // stays open on error so the technician can fix the amount
   }
@@ -104,10 +105,7 @@ export default function Requests() {
       <Modal open={Boolean(completing)} onClose={() => setCompleting(null)} title="Mark job as completed">
         <label className="input-label">Final amount (USD)</label>
         <input type="number" min="1" step="0.01" className="input-box" value={amount} onChange={(e) => setAmount(e.target.value)} />
-        <button
-          className="btn-main mt-4 w-full"
-          onClick={() => { if (completing) setStatus(completing._id, "completed", { finalAmount: Number(amount) }); setCompleting(null); }}
-        >
+        <button className="btn-main mt-4 w-full" onClick={completeJob}>
           Complete Job
         </button>
       </Modal>
