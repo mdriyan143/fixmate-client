@@ -2,6 +2,7 @@
 import { useParams } from "next/navigation";
 import { useApi } from "@/lib/useApi";
 import type { Payment } from "@/lib/types";
+import { downloadInvoice } from "@/lib/invoicePdf";
  
 export default function InvoicePage() {
   const { bookingId } = useParams<{ bookingId: string }>();
@@ -31,7 +32,7 @@ export default function InvoicePage() {
         ))}
         <p className="text-right text-2xl font-extrabold text-[var(--accent-ink)]">Total: ${payment.amount}</p>
       </div>
-      <button onClick={() => window.print()} className="btn-main no-print">Download PDF</button>
+    <button onClick={() => downloadInvoice(payment)} className="btn-main">Download PDF</button>
     </div>
   );
 }
