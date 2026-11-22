@@ -6,10 +6,9 @@ Customers can discover approved repair services, submit repair requests, follow 
 
 ## Live Application
 
-- **Live site:** `https://YOUR-FRONTEND-DOMAIN`
-- **Backend API:** `https://YOUR-BACKEND-DOMAIN`
+- **Live site:** https://fixmate-client-mdriyan143.vercel.app
+- **Backend API:** https://fixmate-server-pi.vercel.app
 
-> Replace the example URLs above with your deployed URLs before submission.
 
 ## Tech Stack
 
