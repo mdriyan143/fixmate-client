@@ -5,7 +5,14 @@ import { nextCookies } from "better-auth/next-js";
 import { createAuthMiddleware, APIError } from "better-auth/api";
 import { MongoClient } from "mongodb";
 
-const client = new MongoClient(process.env.MONGODB_URI as string);
+const globalForMongo = globalThis as unknown as { mongoClient?: MongoClient };
+
+const client =
+  globalForMongo.mongoClient ??
+  new MongoClient(process.env.MONGODB_URI as string, { maxPoolSize: 10 });
+
+globalForMongo.mongoClient = client;
+
 const db = client.db(process.env.DB_NAME);
 
 // Google login is switched on only when both keys exist, so a missing key cannot break the app
