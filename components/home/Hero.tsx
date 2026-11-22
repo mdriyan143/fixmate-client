@@ -1,12 +1,13 @@
 import Link from "next/link";
+import HeroPhoto from "./HeroPhoto";
 import { ArrowRight, BadgeCheck, CircleCheck, Lock, Receipt, Search } from "lucide-react";
 
-// hero photos live in public/images (one photo per service category)
-const photos: [src: string, label: string][] = [
-  ["/images/hero-phone.svg", "Smartphone"],
-  ["/images/hero-laptop.svg", "Laptop & PC"],
-  ["/images/hero-ac.svg", "AC"],
-  ["/images/hero-fridge.svg", "Refrigerator"],
+// [online photo, local svg used if the photo fails, label]
+const photos: [src: string, fallback: string, label: string][] = [
+  ["https://i.ibb.co.com/S758FDnw/advanced-phone-repair.webp", "/images/hero-phone.svg", "Smartphone"],
+  ["https://i.ibb.co.com/qF0Y0QgZ/pc.avif", "/images/hero-laptop.svg", "Laptop & PC"],
+  ["https://i.ibb.co.com/FL4wK5Br/AC-repair.jpg", "/images/hero-ac.svg", "AC"],
+  ["https://i.ibb.co.com/YBZnWcth/QDzshc-Px-DUMt-Ae-Jz4lj-Cu5-Lg-ZC3-DP5v35-OZc-Ug-Pb.png", "/images/hero-fridge.svg", "Refrigerator"],
 ];
 
 // qualitative trust points (no invented statistics)
@@ -73,20 +74,14 @@ export default function Hero() {
         {/* ---------- photo collage ---------- */}
         <div className="animate-fade-in anim-delay-2 relative">
           <div className="grid grid-cols-2 gap-4">
-            {photos.map(([src, label], i) => (
+            {photos.map(([src, fallback, label], i) => (
               <div
                 key={label}
                 className={`group relative h-44 overflow-hidden rounded-3xl bg-slate-200 shadow-[0_20px_40px_-20px_rgb(30_63_207/0.5)] ring-4 ring-white/70 sm:h-52 lg:h-56 dark:ring-white/10 ${
                   i % 2 === 1 ? "mt-8" : ""
                 }`}
               >
-                <img
-                  src={src}
-                  alt={`${label} repair`}
-                  loading="eager"
-                  decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+                <HeroPhoto src={src} fallback={fallback} alt={`${label} repair`} />
                 <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-[#0f1e4a] backdrop-blur">
                   {label}
                 </span>
