@@ -18,6 +18,7 @@ export default async function FeaturedServices() {
 
   return (
     <section className="page-wrap section-gap">
+      <span className="section-eyebrow">Featured</span>
       <h2 className="section-title">Featured Services</h2>
       <p className="section-sub">Fresh repair services from our verified technicians.</p>
       {services.length === 0 ? (

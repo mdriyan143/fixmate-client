@@ -2,9 +2,12 @@ import "./globals.css";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
-import { Inter } from "next/font/google";
+import { Inter, Manrope } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+// body font
+const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
+// heading font (globals.css applies it to h1-h4 through --font-manrope)
+const manrope = Manrope({ subsets: ["latin"], display: "swap", variable: "--font-manrope" });
 
 export const metadata: Metadata = {
   title: "FixMate | Device & Home Appliance Repair",
@@ -21,7 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${manrope.variable} ${inter.className}`}>
         {children}
         <Toaster position="top-right" richColors duration={2500} />
       </body>

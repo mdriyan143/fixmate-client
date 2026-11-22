@@ -1,4 +1,5 @@
-import { Search } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, BadgeCheck, CircleCheck, Lock, Receipt, Search } from "lucide-react";
 
 // hero photos are hosted on ImgBB (one photo per service category)
 const photos: [src: string, label: string][] = [
@@ -8,54 +9,101 @@ const photos: [src: string, label: string][] = [
   ["https://i.ibb.co.com/hR6QyzNt/hero-fridge.jpg", "Refrigerator"],
 ];
 
+// qualitative trust points (no invented statistics)
+const trust = [
+  { icon: BadgeCheck, text: "Verified technicians" },
+  { icon: Receipt, text: "Transparent pricing" },
+  { icon: Lock, text: "Pay after completion" },
+];
+
 export default function Hero() {
   return (
-    <section className="bg-[var(--sage)] text-[var(--navy)]">
-      <div className="page-wrap grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
+    <section className="bg-hero">
+      <div className="page-wrap grid items-center gap-12 py-14 lg:grid-cols-2 lg:py-24">
+        {/* ---------- text side ---------- */}
         <div>
-          <span className="badge bg-[var(--soft)] text-[var(--navy)]">
-            Pay only after the job is done
+          <span className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/70 px-4 py-1.5 text-sm font-semibold text-[#1e3fcf] shadow-sm backdrop-blur dark:border-white/10 dark:bg-[#111b45]/70 dark:text-[#b7c9ff]">
+            <Lock size={14} aria-hidden="true" /> Pay only after the job is done
           </span>
-          <h1 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">
-            Broken Device? Get It Fixed by Verified Technicians
+
+          <h1 className="animate-fade-up anim-delay-1 mt-5 text-4xl font-extrabold leading-[1.1] text-[var(--navy)] sm:text-5xl lg:text-[3.4rem]">
+            Your devices deserve <span className="hl">expert</span> care.
           </h1>
-          <p className="mt-4 max-w-lg text-[var(--navy)]/80">
-            Phones, laptops, AC, fridge, TV and more. Send a request, track every
-            step and pay securely when the repair is complete.
+
+          <p className="animate-fade-up anim-delay-2 mt-5 max-w-lg text-lg text-slate-600">
+            From smartphones to home appliances, find trusted technicians and get quality repairs without the hassle.
           </p>
 
           <form
             action="/services"
-            className="mt-8 flex max-w-lg gap-2 rounded-xl bg-white p-2 shadow-lg"
+            role="search"
+            className="animate-fade-up anim-delay-3 mt-8 flex max-w-lg items-center gap-2 rounded-full border border-white/80 bg-white/80 p-1.5 shadow-[0_18px_40px_-20px_rgb(30_63_207/0.45)] backdrop-blur transition-shadow duration-300 focus-within:shadow-[0_0_0_4px_rgb(47_109_240/0.2),0_18px_40px_-20px_rgb(30_63_207/0.45)] dark:border-white/10 dark:bg-[#111b45]/80"
           >
+            <label htmlFor="hero-search" className="sr-only">Search repair services</label>
             <input
+              id="hero-search"
               name="search"
               placeholder="Try: iPhone screen, AC gas..."
-              className="min-w-0 flex-1 px-3 text-slate-800 outline-none"
+              className="min-w-0 flex-1 bg-transparent px-4 text-[var(--text)] outline-none placeholder:text-slate-400"
             />
-            <button className="btn-main">
-              <Search size={18} /> Search
+            <button className="btn-main shrink-0">
+              <Search size={18} aria-hidden="true" /> Search
             </button>
           </form>
+
+          <div className="animate-fade-up anim-delay-4 mt-6 flex flex-wrap gap-3">
+            <Link href="/services" className="btn-dark">
+              Explore Services <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+            <Link href="/about" className="btn-ghost">How It Works</Link>
+          </div>
+
+          <ul className="animate-fade-up anim-delay-4 mt-8 flex flex-wrap gap-x-6 gap-y-3">
+            {trust.map(({ icon: Icon, text }) => (
+              <li key={text} className="flex items-center gap-2 text-sm font-semibold text-slate-600">
+                <span className="icon-tile h-8 w-8 rounded-xl">
+                  <Icon size={16} aria-hidden="true" />
+                </span>
+                {text}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          {photos.map(([src, label]) => (
-            <div
-              key={label}
-              className="relative h-36 overflow-hidden rounded-2xl bg-slate-200 shadow-lg sm:h-44 lg:h-52"
-            >
-              <img
-                src={src}
-                alt={`${label} repair`}
-                loading="eager"
-                className="h-full w-full object-cover"
-              />
-              <span className="absolute bottom-2 left-2 rounded-full bg-[var(--soft)] px-3 py-1 text-xs font-semibold text-[var(--navy)]">
-                {label}
-              </span>
+        {/* ---------- photo collage ---------- */}
+        <div className="animate-fade-in anim-delay-2 relative">
+          <div className="grid grid-cols-2 gap-4">
+            {photos.map(([src, label], i) => (
+              <div
+                key={label}
+                className={`group relative h-44 overflow-hidden rounded-3xl bg-slate-200 shadow-[0_20px_40px_-20px_rgb(30_63_207/0.5)] ring-4 ring-white/70 sm:h-52 lg:h-56 dark:ring-white/10 ${
+                  i % 2 === 1 ? "mt-8" : ""
+                }`}
+              >
+                <img
+                  src={src}
+                  alt={`${label} repair`}
+                  loading="eager"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-[#0f1e4a] backdrop-blur">
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* floating glass card */}
+          <div className="card-box animate-float absolute -bottom-5 left-2 flex items-center gap-3 px-4 py-3 sm:-left-6">
+            <span className="icon-tile h-10 w-10 rounded-xl">
+              <CircleCheck size={20} aria-hidden="true" />
+            </span>
+            <div>
+              <p className="text-sm font-bold text-[var(--navy)]">Track every step</p>
+              <p className="text-xs text-slate-500">Requested to completed</p>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

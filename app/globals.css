@@ -6,207 +6,382 @@
 
 @media print {
   header, aside, footer, .no-print { display: none !important; }
+  body::before { display: none; }
 }
 
-/* Warm greys and tints: every slate-* and orange-* class in the app now follows the FixMate palette */
+/* blue-tinted greys: every text-slate-* and bg-slate-* class follows this scale */
 @theme {
-  --color-slate-50: #faf9f5;
-  --color-slate-100: #f1efe8;
-  --color-slate-200: #e4e0d4;
-  --color-slate-300: #cfcabc;
-  --color-slate-400: #a19d90;
-  --color-slate-500: #6b6a65;   /* secondary text */
-  --color-slate-600: #55544f;
-  --color-slate-700: #3f4046;
-  --color-slate-800: #2b2d31;
-  --color-orange-50: #fef3e4;
-  --color-orange-100: #fde6c9;
+  --color-slate-50: #f6f8ff;
+  --color-slate-100: #edf1fb;
+  --color-slate-200: #dde4f4;
+  --color-slate-300: #c3cde6;
+  --color-slate-400: #8b97b8;
+  --color-slate-500: #55648f;   /* secondary text */
+  --color-slate-600: #44527a;
+  --color-slate-700: #33406a;
+  --color-slate-800: #1f2c55;
+  /* the old "orange" tint classes become soft blue tints (renamed in later steps) */
+  --color-orange-50: #f1f5ff;
+  --color-orange-100: #dbe6ff;
 }
 
 :root {
-  /* FixMate colours */
-  --sage: #9caf88;         /* primary sections: hero, why choose us, footer, dashboard sidebar */
-  --sage-dark: #6f8560;    /* darker sage for borders and focus */
-  --sage-soft: #e8eee2;    /* very light sage for chips and icon tiles */
-  --soft: #f7f5ef;         /* off-white: page background and navbar */
-  --accent: #f28c28;       /* warm orange: CTA buttons and important actions */
-  --accent-foreground: #2b2d31;  /* charcoal text on orange */
-  --accent-dark: #dd7a16;  /* darker orange on hover */
-  --accent-ink: #b4570a;   /* dark orange for small orange TEXT, readable on white */
-  --navy: #2b2d31;         /* charcoal: text and headings (old name kept, so no component changes) */
-  --line: #e4e0d4;         /* thin warm border colour */
+  /* ---------- Aurora Glass colours (old variable names kept, so no component breaks) ---------- */
+  --ink: #0f1e4a;            /* fixed deep indigo: text on light blue surfaces */
+  --navy: #0f1e4a;           /* headings */
+  --text: #2b3a67;           /* body text */
+  --soft: #f0f5ff;           /* cool snow page background */
+  --line: #dbe4f7;           /* borders */
+  --accent: #7aa2ff;         /* glow blue: logo tile, active menu item, rings (navy text reads on it) */
+  --accent-dark: #5f8cf5;    /* hover */
+  --accent-foreground: #0f1e4a;
+  --accent-ink: #1e3fcf;     /* deep blue: links and small coloured TEXT */
+  --sage: #e6eeff;           /* pale blue for now (footer and sidebar become deep navy in later steps) */
+  --sage-soft: #eaf0ff;
+  --sage-dark: #1e3fcf;
+  --mint: #14b8a6;           /* secondary accent for small highlights */
 
-  /* shadcn/ui variables (used by the Dialog) */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  /* ---------- gradients ---------- */
+  --grad-brand: linear-gradient(135deg, #1e3fcf 0%, #2f6df0 100%);
+  --grad-deep: linear-gradient(160deg, #0b1636 0%, #13276b 100%);
+  --grad-hero: linear-gradient(160deg, #eaf1ff 0%, #f3f0ff 55%, #e6fbf7 100%);
+  --grad-icon: linear-gradient(135deg, #dbe6ff 0%, #cdf5ee 100%);
+
+  /* ---------- glass, shadows and motion ---------- */
+  --glass: rgb(255 255 255 / 0.72);
+  --glass-edge: rgb(255 255 255 / 0.9);
+  --shadow-sm: 0 1px 0 rgb(255 255 255 / 0.9) inset, 0 0 0 1px rgb(30 63 207 / 0.06);
+  --shadow-md: 0 14px 32px -14px rgb(30 63 207 / 0.28);
+  --shadow-lg: 0 24px 48px -18px rgb(30 63 207 / 0.4);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);        /* smooth ease-out */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* slight overshoot for "pop" */
+
+  /* ---------- shadcn/ui variables (used by the Dialog) ---------- */
+  --background: #ffffff;
+  --foreground: #2b3a67;
+  --card: #ffffff;
+  --card-foreground: #2b3a67;
+  --popover: #ffffff;
+  --popover-foreground: #2b3a67;
+  --primary: #1e3fcf;
+  --primary-foreground: #ffffff;
+  --secondary: #edf1fb;
+  --secondary-foreground: #0f1e4a;
+  --muted: #edf1fb;
+  --muted-foreground: #55648f;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --border: #dbe4f7;
+  --input: #cdd8f2;
+  --ring: #2f6df0;
+  --chart-1: #1e3fcf;
+  --chart-2: #2f6df0;
+  --chart-3: #7aa2ff;
+  --chart-4: #14b8a6;
+  --chart-5: #f472b6;
+  --radius: 1rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #2b3a67;
+  --sidebar-primary: #1e3fcf;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #edf1fb;
+  --sidebar-accent-foreground: #0f1e4a;
+  --sidebar-border: #dbe4f7;
+  --sidebar-ring: #2f6df0;
 }
 
 body {
-  background: var(--soft);              /* off-white page background */
-  color: var(--navy);                   /* charcoal text */
+  background: var(--soft);
+  color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;  /* Inter is added by next/font in layout.tsx */
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;  /* crisper text on Mac and iOS */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* the aurora: three soft colour glows fixed behind every page */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(560px circle at 88% -6%, rgb(122 162 255 / 0.45), transparent 62%),
+    radial-gradient(600px circle at -6% 38%, rgb(94 234 212 / 0.28), transparent 62%),
+    radial-gradient(560px circle at 72% 108%, rgb(244 168 214 / 0.26), transparent 62%);
 }
 
 @layer base {
-  h1, h2, h3, h4 { letter-spacing: -0.01em; }   /* slightly tighter headings look cleaner */
-  * {
-    @apply border-border outline-ring/50;
+  html { scroll-behavior: smooth; }
+  h1, h2, h3, h4 {
+    font-family: var(--font-manrope, inherit);   /* Manrope is loaded in Step 2; falls back safely until then */
+    letter-spacing: -0.02em;
   }
+  * { @apply border-border outline-ring/50; }
+
+  /* no grey flash when tapping on phones, and no double-tap zoom on controls */
+  a, button, [role="button"], label, select, summary {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  :focus-visible { outline: 3px solid #2f6df0; outline-offset: 2px; }
+  ::selection { background: rgb(47 109 240 / 0.22); }
 }
 
 /* "components" layer: Tailwind utility classes can still override these */
 @layer components {
+  /* ---------- layout ---------- */
   .page-wrap {
-    max-width: 1200px;                  /* content never gets wider than this */
-    margin: 0 auto;                     /* centers the box left-right */
-    padding: 0 clamp(16px, 4vw, 32px);  /* 16px on phones, up to 32px on desktop */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 32px);
   }
-  .section-gap { padding: clamp(48px, 8vw, 80px) 0; }   /* space above and below a section */
+  .section-gap { padding: clamp(52px, 8vw, 92px) 0; }
+  .section-eyebrow {
+    display: flex; width: max-content; margin: 0 auto 12px; padding: 5px 14px;
+    border-radius: 999px; background: rgb(47 109 240 / 0.1); color: var(--accent-ink);
+    font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  }
   .section-title {
-    font-size: clamp(1.6rem, 3vw, 2.1rem);   /* same heading style on every section */
-    font-weight: 700;
+    font-size: clamp(1.75rem, 3.2vw, 2.4rem);
+    font-weight: 800;
     color: var(--navy);
     text-align: center;
+    line-height: 1.15;
   }
   .section-sub {
-    color: #6b6a65;               /* soft warm grey */
+    color: #55648f;
     text-align: center;
-    max-width: 560px;             /* keeps the line short and readable */
-    margin: 8px auto 36px;
+    max-width: 560px;
+    margin: 12px auto 40px;
   }
 
-  /* buttons: orange CTA with charcoal text (best contrast on orange) */
+  /* ---------- gradient pill buttons: shrink + glow ring when tapped ---------- */
   .btn-main {
-    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    background: var(--accent);
-    color: var(--navy);
-    font-weight: 700;
-    padding: 10px 22px;
-    border-radius: 12px;
-    box-shadow: 0 1px 2px rgb(43 45 49 / 0.12);
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-    cursor: pointer;
-  }
-  .btn-main:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 6px 16px rgb(242 140 40 / 0.3); }
-  .btn-main:focus-visible, .btn-ghost:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 2px; }
-  .btn-main:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
-  .btn-ghost {
-    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    background: #fff;
-    color: var(--navy);
-    border: 1px solid #d5d0c2;
-    font-weight: 600;
-    padding: 10px 22px;
-    border-radius: 12px;
-    transition: background 0.2s, border-color 0.2s;
-    cursor: pointer;
-  }
-  .btn-ghost:hover { background: var(--sage-soft); border-color: var(--sage); }
-  .btn-danger {
-    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    background: #dc2626;          /* red stays red: it warns about risky actions */
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background-color: #1e3fcf;
+    background-image: var(--grad-brand);
     color: #fff;
     font-weight: 600;
-    padding: 10px 22px;
-    border-radius: 12px;
+    font-size: 0.95rem;
+    padding: 12px 26px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px -8px rgb(30 63 207 / 0.6), 0 0 0 0 rgb(47 109 240 / 0);
+    transition: transform 0.2s var(--ease), box-shadow 0.35s var(--ease), filter 0.2s;
     cursor: pointer;
+    user-select: none;
   }
-  .btn-danger:hover { background: #b91c1c; }
-  .btn-small { padding: 6px 14px; font-size: 0.85rem; border-radius: 10px; }
+  .btn-main:active {
+    transform: scale(0.94);
+    box-shadow: 0 4px 12px -6px rgb(30 63 207 / 0.6), 0 0 0 8px rgb(47 109 240 / 0.25);
+    transition-duration: 0.1s;
+  }
+  .btn-main:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; filter: grayscale(0.3); }
 
-  /* form inputs */
+  /* deep navy button for strong secondary actions */
+  .btn-dark {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background-color: #0f1e4a;
+    background-image: linear-gradient(135deg, #13276b 0%, #0f1e4a 100%);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 26px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px -8px rgb(15 30 74 / 0.6), 0 0 0 0 rgb(15 30 74 / 0);
+    transition: transform 0.2s var(--ease), box-shadow 0.35s var(--ease);
+    cursor: pointer;
+    user-select: none;
+  }
+  .btn-dark:active { transform: scale(0.94); box-shadow: 0 0 0 8px rgb(15 30 74 / 0.18); transition-duration: 0.1s; }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: rgb(255 255 255 / 0.7);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    color: var(--navy);
+    border: 1.5px solid rgb(30 63 207 / 0.22);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10.5px 24.5px;
+    border-radius: 999px;
+    transition: transform 0.2s var(--ease), box-shadow 0.35s var(--ease), background 0.2s, border-color 0.2s;
+    cursor: pointer;
+    user-select: none;
+  }
+  .btn-ghost:active { transform: scale(0.95); box-shadow: 0 0 0 6px rgb(47 109 240 / 0.14); transition-duration: 0.1s; }
+  .btn-ghost:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  .btn-danger {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background-color: #dc2626;
+    background-image: linear-gradient(135deg, #e11d48 0%, #dc2626 100%);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 26px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px -8px rgb(220 38 38 / 0.55), 0 0 0 0 rgb(220 38 38 / 0);
+    transition: transform 0.2s var(--ease), box-shadow 0.35s var(--ease);
+    cursor: pointer;
+    user-select: none;
+  }
+  .btn-danger:active { transform: scale(0.94); box-shadow: 0 0 0 8px rgb(220 38 38 / 0.22); transition-duration: 0.1s; }
+  .btn-danger:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* small buttons (keep AFTER the big button rules) */
+  .btn-small { padding: 6px 16px; font-size: 0.85rem; }
+  .btn-ghost.btn-small { padding: 5px 15px; }
+
+  /* generic tap feedback for any clickable element (avatars, icon buttons, chips) */
+  .press { transition: transform 0.18s var(--ease); cursor: pointer; }
+  .press:active { transform: scale(0.93); transition-duration: 0.08s; }
+
+  /* ---------- form inputs: soft glass field, blue glow when typing ---------- */
   .input-box {
     width: 100%;
-    border: 1px solid #d5d0c2;
-    border-radius: 12px;
-    padding: 10px 14px;
-    background: #fff;
+    border: 1.5px solid #cdd8f2;
+    border-radius: 16px;
+    padding: 11px 16px;
+    background: rgb(255 255 255 / 0.85);
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s, box-shadow 0.25s, background 0.2s;
   }
+  .input-box::placeholder { color: #8b97b8; }
   .input-box:focus {
-    border-color: var(--accent);                     /* orange border when typing */
-    box-shadow: 0 0 0 3px rgb(242 140 40 / 0.18);    /* soft orange glow */
+    border-color: #2f6df0;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgb(47 109 240 / 0.18);
   }
-  .input-label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #3f4046; }
+  .input-label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #33406a; }
   .input-error { color: #dc2626; font-size: 0.8rem; margin-top: 4px; }
 
-  /* white card with a soft shadow */
+  /* ---------- frosted-glass cards ---------- */
   .card-box {
-    background: #fff;
-    border: 1px solid var(--line);
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid var(--glass-edge);
+    border-radius: 24px;
+    box-shadow: var(--shadow-sm), var(--shadow-md);
+    transition: transform 0.28s var(--ease), box-shadow 0.35s var(--ease), border-color 0.25s;
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .card-box { background: #fff; }
+  }
+  /* clickable cards (category links) and anything with .card-hover press in when tapped */
+  a.card-box:active, .card-hover:active { transform: scale(0.98); transition-duration: 0.08s; }
+
+  /* icon tile: soft blue-to-mint square behind icons */
+  .icon-tile {
+    display: grid; place-items: center;
     border-radius: 18px;
-    box-shadow: 0 1px 2px rgb(43 45 49 / 0.04), 0 8px 24px rgb(43 45 49 / 0.06);
+    background: var(--grad-icon);
+    color: var(--accent-ink);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.9), 0 6px 14px -8px rgb(30 63 207 / 0.35);
   }
 
-  /* tables (scroll sideways on small screens) */
+  /* ---------- gradient backgrounds ---------- */
+  .bg-deep { background-image: var(--grad-deep); color: #fff; }       /* footer, sidebar, banners */
+  .bg-hero {                                                          /* light hero with glowing blobs */
+    position: relative; overflow: hidden;
+    background-image: var(--grad-hero); color: var(--navy);
+  }
+  .bg-hero::before, .bg-hero::after {
+    content: ""; position: absolute; border-radius: 50%; pointer-events: none; filter: blur(70px); opacity: 0.6;
+  }
+  .bg-hero::before { width: 340px; height: 340px; background: #7aa2ff; top: -100px; right: -60px; }
+  .bg-hero::after { width: 320px; height: 320px; background: #5eead4; left: -90px; bottom: -120px; }
+  .bg-hero > * { position: relative; z-index: 1; }
+  .bg-soft { background-image: linear-gradient(180deg, rgb(255 255 255 / 0.5), rgb(230 238 255 / 0.6)); }
+
+  .text-gradient, .hl {                                               /* blue-to-mint gradient text */
+    background-image: linear-gradient(90deg, #1e3fcf 0%, #14b8a6 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+
+  /* ---------- tables (scroll sideways on small screens) ---------- */
   .table-box { overflow-x: auto; }
   .table-box table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   .table-box th {
-    text-align: left; padding: 12px 14px; background: #f3f0e6;
-    color: #5e5d57; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap;
+    text-align: left; padding: 13px 16px; background: rgb(47 109 240 / 0.07);
+    color: #44527a; font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap;
   }
-  .table-box td { padding: 12px 14px; border-top: 1px solid var(--line); vertical-align: middle; }
-  .table-box tbody tr:hover { background: #fbfaf6; }
+  .table-box td { padding: 13px 16px; border-top: 1px solid var(--line); vertical-align: middle; }
+  .table-box tbody tr { transition: background 0.15s; }
+  .table-box tbody tr:hover { background: rgb(47 109 240 / 0.05); }
 
-  /* status badges: same colours in every dashboard */
+  /* ---------- status badges: same colours in every dashboard ---------- */
   .badge {
-    display: inline-block; padding: 2px 10px; border-radius: 999px;
+    display: inline-flex; align-items: center; padding: 3px 11px; border-radius: 999px;
     font-size: 0.75rem; font-weight: 600; white-space: nowrap;
   }
-  .badge-requested { background: #dbeafe; color: #1d4ed8; }     /* blue */
-  .badge-accepted { background: #e0e7ff; color: #4338ca; }      /* indigo */
-  .badge-in-progress { background: #fef3c7; color: #b45309; }   /* amber */
-  .badge-completed { background: #dcfce7; color: #15803d; }     /* green */
-  .badge-rejected { background: #fee2e2; color: #b91c1c; }      /* red */
-  .badge-cancelled { background: #e5e7eb; color: #4b5563; }     /* gray */
-  .badge-paid { background: #dcfce7; color: #15803d; }
+  .badge-requested { background: #dbeafe; color: #1d4ed8; }      /* blue */
+  .badge-accepted { background: #e0e7ff; color: #4338ca; }       /* indigo */
+  .badge-in-progress { background: #fef3c7; color: #b45309; }    /* amber */
+  .badge-completed { background: #dcfce7; color: #15803d; }      /* green */
+  .badge-paid { background: #ccfbf1; color: #0f766e; }           /* teal */
+  .badge-rejected { background: #fee2e2; color: #b91c1c; }       /* red */
+  .badge-cancelled { background: #e5e7eb; color: #4b5563; }      /* gray */
   .badge-unpaid { background: #fef3c7; color: #b45309; }
   .badge-pending { background: #fef3c7; color: #b45309; }
   .badge-approved { background: #dcfce7; color: #15803d; }
-  .badge-role { background: var(--sage-soft); color: #3f5230; } /* role and category chips: soft sage */
+  .badge-role { background: rgb(47 109 240 / 0.1); color: #1e3fcf; }   /* role and category chips */
 
-  /* loading placeholder with a moving shine */
+  /* ---------- loading placeholder with a moving shine ---------- */
   .skeleton {
-    background: linear-gradient(90deg, #ece8dc, #f5f2e9, #ece8dc);
+    background: linear-gradient(90deg, #e3eafb, #f1f5ff, #e3eafb);
     background-size: 200% 100%;
     animation: shine 1.2s infinite;
-    border-radius: 14px;
+    border-radius: 16px;
+  }
+
+  /* ---------- entrance animations (add the class to any element) ---------- */
+  .animate-fade-up { animation: fadeUp 0.65s var(--ease) both; }
+  .animate-fade-in { animation: fadeIn 0.5s ease both; }
+  .animate-pop { animation: pop 0.5s var(--spring) both; }
+  .animate-float { animation: floaty 6s ease-in-out infinite; }
+  .animate-glow { animation: glow 3s ease-in-out infinite; }
+  .tool-wiggle { animation: wiggle 2.5s ease-in-out infinite; }
+  .anim-delay-1 { animation-delay: 0.08s; }
+  .anim-delay-2 { animation-delay: 0.16s; }
+  .anim-delay-3 { animation-delay: 0.24s; }
+  .anim-delay-4 { animation-delay: 0.32s; }
+}
+
+/* hover effects only on devices with a real mouse (phones never get a "stuck" hover) */
+@media (hover: hover) {
+  .btn-main:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+    box-shadow: 0 14px 28px -8px rgb(30 63 207 / 0.65), 0 0 0 0 rgb(47 109 240 / 0);
+  }
+  .btn-dark:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -8px rgb(15 30 74 / 0.65); }
+  .btn-ghost:hover { transform: translateY(-2px); background: #fff; border-color: #2f6df0; box-shadow: 0 10px 22px -10px rgb(30 63 207 / 0.4); }
+  .btn-danger:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 14px 28px -8px rgb(220 38 38 / 0.6); }
+  a.card-box:hover, .card-hover:hover {
+    transform: translateY(-6px);
+    border-color: rgb(47 109 240 / 0.4);
+    box-shadow: var(--shadow-sm), var(--shadow-lg);
   }
 }
 
-@keyframes shine {
-  to { background-position: -200% 0; }
+@keyframes shine { to { background-position: -200% 0; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: none; } }
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes glow { 0%, 100% { box-shadow: 0 0 0 0 rgb(47 109 240 / 0.35); } 50% { box-shadow: 0 0 0 12px rgb(47 109 240 / 0); } }
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50%      { transform: rotate(3deg); }
+}
+
+/* people who turn on "reduce motion" in their system get no animation */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* shadcn/ui: maps its variables to Tailwind colour classes */
@@ -253,41 +428,58 @@ body {
 
 /* dark mode: same variables, new values (must stay AFTER :root) */
 .dark {
-  --soft: #1b1d20;
-  --navy: #f1efe8;          /* text becomes light */
-  --sage: #2f3a2a;
-  --sage-soft: #2a3326;
-  --line: #3a3d42;
-  --accent-ink: #f5a554;
-  --background: oklch(0.22 0 0);
-  --foreground: oklch(0.95 0 0);
-  --popover: oklch(0.22 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-  --border: oklch(0.32 0 0);
+  --soft: #080e24;
+  --text: #d5dcf2;
+  --navy: #eef2ff;           /* headings become light */
+  --line: #26345f;
+  --accent-ink: #8fb0ff;
+  --sage: #121c45;
+  --sage-soft: #16225a;
+  --glass: rgb(20 30 70 / 0.6);
+  --glass-edge: rgb(255 255 255 / 0.08);
+  --shadow-sm: 0 0 0 1px rgb(255 255 255 / 0.05);
+  --shadow-md: 0 14px 32px -14px rgb(0 0 0 / 0.6);
+  --shadow-lg: 0 24px 48px -18px rgb(0 0 0 / 0.7);
+  --grad-hero: linear-gradient(160deg, #0d1638 0%, #151a4a 55%, #0b2330 100%);
+  --background: #0d1638;
+  --foreground: #d5dcf2;
+  --popover: #111b45;
+  --popover-foreground: #d5dcf2;
+  --border: #26345f;
+  --muted-foreground: #9aa6c9;
 
   /* the slate scale is flipped: light text, dark backgrounds */
-  --color-slate-50: #1b1d20;
-  --color-slate-100: #26292d;
-  --color-slate-200: #3a3d42;
-  --color-slate-300: #4a4d52;
-  --color-slate-400: #8d8c86;
-  --color-slate-500: #a9a79f;
-  --color-slate-600: #c4c2ba;
-  --color-slate-700: #d9d7cf;
-  --color-slate-800: #f1efe8;
-
-  /* selected role card and similar light orange tints */
-  --color-orange-50: #3a2a18;
-  --color-orange-100: #4a3520;
+  --color-slate-50: #080e24;
+  --color-slate-100: #121c45;
+  --color-slate-200: #26345f;
+  --color-slate-300: #37487e;
+  --color-slate-400: #7d8ab0;
+  --color-slate-500: #a3aed0;
+  --color-slate-600: #bcc5e0;
+  --color-slate-700: #d2d9ee;
+  --color-slate-800: #eef2ff;
+  --color-orange-50: #121c45;
+  --color-orange-100: #1b2a63;
 }
-.dark .card-box, .dark .input-box, .dark .btn-ghost, .dark .bg-white { background: #26292d; }
-.dark .input-box, .dark .btn-ghost { border-color: #3a3d42; color: #f1efe8; }
-.dark .btn-main { color: #2b2d31; }   /* keep dark text on the orange button */
-.dark .table-box th { background: #2f3236; color: #c4c2ba; }
-.dark .table-box tbody tr:hover { background: #2b2e32; }
-.dark .skeleton { background: linear-gradient(90deg, #2b2e32, #34373c, #2b2e32); background-size: 200% 100%; }
 
-/* fixed dark greys that would be unreadable on a dark page */
-.dark .section-sub { color: #a9a79f; }
-.dark .input-label { color: #d9d7cf; }
-.dark .badge-role { color: #c9d9b8; }
+.dark .bg-soft { background-image: linear-gradient(180deg, rgb(255 255 255 / 0.02), rgb(95 140 245 / 0.08)); }
+.dark body::before {
+  background:
+    radial-gradient(560px circle at 88% -6%, rgb(47 109 240 / 0.28), transparent 62%),
+    radial-gradient(600px circle at -6% 38%, rgb(20 184 166 / 0.16), transparent 62%),
+    radial-gradient(560px circle at 72% 108%, rgb(168 85 247 / 0.16), transparent 62%);
+}
+.dark .bg-white, .dark .input-box, .dark .btn-ghost { background: rgb(20 30 70 / 0.85); }
+.dark .input-box, .dark .btn-ghost { border-color: #2f4075; color: #eef2ff; }
+.dark .input-box::placeholder { color: #7d8ab0; }
+.dark .input-box:focus { background: #16225a; border-color: #5f8cf5; }
+.dark .table-box th { background: rgb(95 140 245 / 0.12); color: #bcc5e0; }
+.dark .table-box tbody tr:hover { background: rgb(95 140 245 / 0.08); }
+.dark .skeleton { background: linear-gradient(90deg, #121c45, #1b2a63, #121c45); background-size: 200% 100%; }
+.dark .section-sub { color: #a3aed0; }
+.dark .input-label { color: #d2d9ee; }
+.dark .badge-role { color: #b7c9ff; background: rgb(95 140 245 / 0.16); }
+.dark .badge-paid { background: #0f3d3a; color: #5eead4; }
+.dark .icon-tile { background: linear-gradient(135deg, #1b2a63 0%, #0f3d3a 100%); color: #8fb0ff; }
+.dark .section-eyebrow { background: rgb(95 140 245 / 0.18); color: #b7c9ff; }
+.dark .text-gradient, .dark .hl { background-image: linear-gradient(90deg, #8fb0ff 0%, #5eead4 100%); }
