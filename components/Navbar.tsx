@@ -106,7 +106,7 @@ export default function Navbar() {
                 />
               </button>
               {dropOpen && (
-                <div role="menu" className="card-box animate-pop absolute right-0 mt-3 w-64 origin-top-right p-3">
+                <div role="menu" className="card-box animate-pop absolute right-0 mt-3 w-64 origin-top-right bg-white p-3 dark:bg-[#0d1638]">
                   <div className="mb-2 border-b border-[var(--line)] px-2 pb-3">
                     <p className="truncate font-bold text-[var(--navy)]">{user.name}</p>
                     <span className="badge badge-role mt-1 capitalize">{user.role || "customer"}</span>

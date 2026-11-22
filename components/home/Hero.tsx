@@ -7,7 +7,7 @@ const photos: [src: string, fallback: string, label: string][] = [
   ["https://i.ibb.co.com/S758FDnw/advanced-phone-repair.webp", "/images/hero-phone.svg", "Smartphone"],
   ["https://i.ibb.co.com/qF0Y0QgZ/pc.avif", "/images/hero-laptop.svg", "Laptop & PC"],
   ["https://i.ibb.co.com/FL4wK5Br/AC-repair.jpg", "/images/hero-ac.svg", "AC"],
-  ["https://i.ibb.co.com/YBZnWcth/QDzshc-Px-DUMt-Ae-Jz4lj-Cu5-Lg-ZC3-DP5v35-OZc-Ug-Pb.png", "/images/hero-fridge.svg", "Refrigerator"],
+  ["https://i.ibb.co.com/FFf7HLV/fridge.jpg", "/images/hero-fridge.svg", "Refrigerator"],
 ];
 
 // qualitative trust points (no invented statistics)

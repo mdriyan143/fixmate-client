@@ -132,7 +132,7 @@ body::before {
     margin: 0 auto;
     padding: 0 clamp(16px, 4vw, 32px);
   }
-  .section-gap { padding: clamp(52px, 8vw, 92px) 0; }
+  .section-gap { padding-block: clamp(52px, 8vw, 92px); }
   .section-eyebrow {
     display: flex; width: max-content; margin: 0 auto 12px; padding: 5px 14px;
     border-radius: 999px; background: rgb(47 109 240 / 0.1); color: var(--accent-ink);
