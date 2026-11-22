@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, CircleCheck, Lock, Receipt, Search } from "lucide-react";
 
-// hero photos are hosted on ImgBB (one photo per service category)
+// hero photos live in public/images (one photo per service category)
 const photos: [src: string, label: string][] = [
-  ["https://i.ibb.co.com/3mpSFGpL/hero-phone.jpg", "Smartphone"],
-  ["https://i.ibb.co.com/XZBRktyf/hero-laptop.jpg", "Laptop & PC"],
-  ["https://i.ibb.co.com/939vkfVk/hero-ac.jpg", "AC"],
-  ["https://i.ibb.co.com/hR6QyzNt/hero-fridge.jpg", "Refrigerator"],
+  ["/images/hero-phone.svg", "Smartphone"],
+  ["/images/hero-laptop.svg", "Laptop & PC"],
+  ["/images/hero-ac.svg", "AC"],
+  ["/images/hero-fridge.svg", "Refrigerator"],
 ];
 
 // qualitative trust points (no invented statistics)
