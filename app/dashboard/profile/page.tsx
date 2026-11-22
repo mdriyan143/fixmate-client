@@ -63,7 +63,7 @@ export default function ProfilePage() {
       <div className="bg-deep h-28" />
 
       <div className="px-6 pb-6">
-        <div className="-mt-12 flex flex-wrap items-end gap-4">
+        <div className="-mt-12 flex flex-wrap items-start gap-4">
           {photo ? (
             <img src={photo} alt="" className="h-24 w-24 rounded-full object-cover ring-4 ring-white shadow-lg dark:ring-[#0d1638]" />
           ) : (
@@ -71,7 +71,7 @@ export default function ProfilePage() {
               {user.name?.[0]?.toUpperCase()}
             </span>
           )}
-          <div className="pb-1">
+          <div className="pt-14">
             <h1 className="text-2xl font-extrabold text-[var(--navy)]">Update Profile</h1>
             <span className="badge badge-role mt-1 capitalize">{user.role || "customer"}</span>
           </div>
