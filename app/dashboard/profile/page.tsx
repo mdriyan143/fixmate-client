@@ -2,12 +2,15 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { toast } from "sonner";
+import { Camera, Loader2, MapPin, Phone, Save, UserRound } from "lucide-react";
 import { api, getErrorMessage } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";
 import { uploadImage } from "@/lib/upload";
 
-
 type ProfileForm = { name: string; phone: string; area: string; bio: string };
+
+const iconClass = "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400";
+const readOnlyClass = "input-box cursor-default bg-slate-100 text-slate-500";
 
 export default function ProfilePage() {
   const { data, refetch } = authClient.useSession();
@@ -28,7 +31,14 @@ export default function ProfilePage() {
     }
   }, [user, form]);
 
-  if (!form || !user) return <div className="skeleton h-64" />;
+  if (!form || !user) {
+    return (
+      <div className="mx-auto max-w-2xl space-y-4">
+        <div className="skeleton h-40" />
+        <div className="skeleton h-72" />
+      </div>
+    );
+  }
   const set = (key: keyof ProfileForm) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm({ ...form, [key]: e.target.value });
 
@@ -47,47 +57,88 @@ export default function ProfilePage() {
     setBusy(false);
   }
 
- const photo = preview ?? user.image;
+  const photo = preview ?? user.image;
   return (
-    <form onSubmit={save} className="card-box mx-auto max-w-2xl space-y-4 p-6">
-      <h1 className="text-2xl font-bold text-[var(--navy)]">Update Profile</h1>
+    <form onSubmit={save} className="card-box mx-auto max-w-2xl overflow-hidden">
+      <div className="bg-deep h-28" />
 
-      <div className="flex items-center gap-4">
-        {photo ? (
-          <img src={photo} alt="" className="h-20 w-20 rounded-full object-cover" />
-        ) : (
-          <span className="grid h-20 w-20 place-items-center rounded-full bg-[var(--navy)] text-2xl font-bold text-white">{user.name?.[0]}</span>
-        )}
-        <input type="file" accept="image/*" className="input-box" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
-      </div>
+      <div className="px-6 pb-6">
+        <div className="-mt-12 flex flex-wrap items-end gap-4">
+          {photo ? (
+            <img src={photo} alt="" className="h-24 w-24 rounded-full object-cover ring-4 ring-white shadow-lg dark:ring-[#0d1638]" />
+          ) : (
+            <span className="grid h-24 w-24 place-items-center rounded-full bg-[image:var(--grad-brand)] text-3xl font-bold text-white ring-4 ring-white shadow-lg dark:ring-[#0d1638]">
+              {user.name?.[0]?.toUpperCase()}
+            </span>
+          )}
+          <div className="pb-1">
+            <h1 className="text-2xl font-extrabold text-[var(--navy)]">Update Profile</h1>
+            <span className="badge badge-role mt-1 capitalize">{user.role || "customer"}</span>
+          </div>
+        </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label className="input-label">Email (read only)</label>
-          <input className="input-box bg-slate-100" value={user.email} readOnly />
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          <input
+            id="profile-photo"
+            type="file"
+            accept="image/*"
+            className="peer sr-only"
+            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+          />
+          <label htmlFor="profile-photo" className="btn-ghost btn-small peer-focus-visible:ring-4 peer-focus-visible:ring-[#2f6df0]/25">
+            <Camera size={14} aria-hidden="true" /> Change photo
+          </label>
+          {file && <span className="truncate text-sm text-slate-500">{file.name}</span>}
         </div>
-        <div>
-          <label className="input-label">Role (read only)</label>
-          <input className="input-box bg-slate-100 capitalize" value={user.role || "customer"} readOnly />
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="pf-email" className="input-label">Email (read only)</label>
+            <input id="pf-email" className={readOnlyClass} value={user.email} readOnly />
+          </div>
+          <div>
+            <label htmlFor="pf-role" className="input-label">Role (read only)</label>
+            <input id="pf-role" className={`${readOnlyClass} capitalize`} value={user.role || "customer"} readOnly />
+          </div>
+          <div>
+            <label htmlFor="pf-name" className="input-label">Name</label>
+            <div className="relative">
+              <UserRound size={18} aria-hidden="true" className={iconClass} />
+              <input id="pf-name" className="input-box pl-11" required value={form.name} onChange={set("name")} />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="pf-phone" className="input-label">Phone</label>
+            <div className="relative">
+              <Phone size={18} aria-hidden="true" className={iconClass} />
+              <input id="pf-phone" type="tel" autoComplete="tel" className="input-box pl-11" value={form.phone} onChange={set("phone")} />
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="pf-area" className="input-label">Area</label>
+            <div className="relative">
+              <MapPin size={18} aria-hidden="true" className={iconClass} />
+              <input id="pf-area" className="input-box pl-11" value={form.area} onChange={set("area")} placeholder="Mirpur, Dhaka" />
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="pf-bio" className="input-label">Bio</label>
+            <textarea id="pf-bio" rows={3} className="input-box resize-none" value={form.bio} onChange={set("bio")} />
+          </div>
         </div>
-        <div>
-          <label className="input-label">Name</label>
-          <input className="input-box" required value={form.name} onChange={set("name")} />
-        </div>
-        <div>
-          <label className="input-label">Phone</label>
-          <input className="input-box" value={form.phone} onChange={set("phone")} />
-        </div>
-        <div className="sm:col-span-2">
-          <label className="input-label">Area</label>
-          <input className="input-box" value={form.area} onChange={set("area")} placeholder="Mirpur, Dhaka" />
-        </div>
-        <div className="sm:col-span-2">
-          <label className="input-label">Bio</label>
-          <textarea rows={3} className="input-box" value={form.bio} onChange={set("bio")} />
-        </div>
+
+        <button className="btn-main mt-6" disabled={busy}>
+          {busy ? (
+            <>
+              <Loader2 size={18} className="animate-spin" aria-hidden="true" /> Saving...
+            </>
+          ) : (
+            <>
+              <Save size={16} aria-hidden="true" /> Save Changes
+            </>
+          )}
+        </button>
       </div>
-      <button className="btn-main" disabled={busy}>{busy ? "Saving..." : "Save Changes"}</button>
     </form>
   );
 }

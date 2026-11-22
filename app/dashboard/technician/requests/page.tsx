@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
 import { toast } from "sonner";
-import { CalendarDays, LayoutGrid, List, MapPin, Phone, User } from "lucide-react";
+import {
+  CalendarDays, Check, CircleCheck, DollarSign, Inbox, LayoutGrid, List, Loader2, MapPin, Phone, Play, UserRound, X,
+} from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import ConfirmModal from "@/components/ConfirmModal";
 import Modal from "@/components/Modal";
@@ -36,6 +38,7 @@ export default function Requests() {
   const [rejectId, setRejectId] = useState<string | null>(null);
   const [completing, setCompleting] = useState<Booking | null>(null);
   const [amount, setAmount] = useState("");
+  const [saving, setSaving] = useState(false);
 
   async function setStatus(
     id: string,
@@ -56,11 +59,21 @@ export default function Requests() {
   async function completeJob() {
     if (!completing) return;
     if (!(Number(amount) > 0)) return toast.error("Enter a final amount above 0");
+    setSaving(true);
     const ok = await setStatus(completing._id, "completed", { finalAmount: Number(amount) });
+    setSaving(false);
     if (ok) setCompleting(null); // stays open on error so the technician can fix the amount
   }
 
-  if (loading) return <div className="skeleton h-64" />;
+  if (loading) {
+    return (
+      <div className="space-y-5">
+        <div className="skeleton h-12 w-64" />
+        <div className="skeleton h-10 w-full max-w-md" />
+        {[1, 2].map((i) => <div key={i} className="skeleton h-52" />)}
+      </div>
+    );
+  }
 
   const all = data || [];
   const countOf = (value: string) =>
@@ -74,16 +87,16 @@ export default function Requests() {
       {b.status === "requested" && (
         <>
           <button className="btn-main btn-small" onClick={() => setStatus(b._id, "accepted")}>
-            Accept
+            <Check size={14} aria-hidden="true" /> Accept
           </button>
           <button className="btn-danger btn-small" onClick={() => setRejectId(b._id)}>
-            Reject
+            <X size={14} aria-hidden="true" /> Reject
           </button>
         </>
       )}
       {b.status === "accepted" && (
         <button className="btn-main btn-small" onClick={() => setStatus(b._id, "in-progress")}>
-          Start Work
+          <Play size={14} aria-hidden="true" /> Start Work
         </button>
       )}
       {b.status === "in-progress" && (
@@ -94,7 +107,7 @@ export default function Requests() {
             setAmount(String(b.basePrice));
           }}
         >
-          Mark Completed
+          <CircleCheck size={14} aria-hidden="true" /> Mark Completed
         </button>
       )}
       {b.status === "completed" && <StatusBadge value={b.paymentStatus} />}
@@ -106,40 +119,47 @@ export default function Requests() {
       {/* header: title and view switch */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--navy)]">Manage Requests</h1>
-          <p className="text-sm text-slate-500">Move each job forward one step at a time.</p>
+          <h1 className="text-2xl font-extrabold text-[var(--navy)] sm:text-3xl">Manage Requests</h1>
+          <p className="mt-1 text-sm text-slate-500">Move each job forward one step at a time.</p>
         </div>
         <div className="hidden gap-2 md:flex">
           <button
             onClick={() => setView("table")}
+            aria-pressed={view === "table"}
             className={view === "table" ? "btn-main btn-small" : "btn-ghost btn-small"}
           >
-            <List size={16} /> Table
+            <List size={16} aria-hidden="true" /> Table
           </button>
           <button
             onClick={() => setView("cards")}
+            aria-pressed={view === "cards"}
             className={view === "cards" ? "btn-main btn-small" : "btn-ghost btn-small"}
           >
-            <LayoutGrid size={16} /> Cards
+            <LayoutGrid size={16} aria-hidden="true" /> Cards
           </button>
         </div>
       </div>
 
       {/* status tabs with counts */}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by status">
         {filters.map(([value, label]) => (
           <button
             key={value}
             onClick={() => setFilter(value)}
+            aria-pressed={filter === value}
             className={filter === value ? "btn-main btn-small" : "btn-ghost btn-small"}
           >
-            {label} <span className="ml-1 opacity-70">{countOf(value)}</span>
+            {label}
+            <span className={`rounded-full px-2 py-0.5 text-[11px] ${filter === value ? "bg-white/25" : "bg-[var(--accent-ink)]/10"}`}>
+              {countOf(value)}
+            </span>
           </button>
         ))}
       </div>
 
       {list.length === 0 ? (
         <EmptyState
+          icon={Inbox}
           title="No requests found"
           text="New repair requests will show up here."
           href="/dashboard/technician/my-services"
@@ -165,11 +185,11 @@ export default function Requests() {
                 {list.map((b) => (
                   <tr key={b._id}>
                     <td className="whitespace-nowrap">
-                      <p className="font-medium">{b.customerName}</p>
+                      <p className="font-medium text-[var(--navy)]">{b.customerName}</p>
                       <p className="text-xs text-slate-500">{b.customerPhone}</p>
                     </td>
                     <td className="max-w-[160px]">{b.address}</td>
-                    <td>{date(b.preferredDate)}</td>
+                    <td className="whitespace-nowrap">{date(b.preferredDate)}</td>
                     <td className="min-w-[220px] max-w-[320px]">
                       <p className="whitespace-pre-wrap break-words">{b.problemDescription}</p>
                     </td>
@@ -203,29 +223,30 @@ export default function Requests() {
 
                   <div className="grid gap-2 text-sm sm:grid-cols-2">
                     <p className="flex items-center gap-2 text-slate-600">
-                      <User size={16} className="shrink-0 text-[var(--accent-ink)]" />
-                      Customer:{" "}
+                      <UserRound size={16} aria-hidden="true" className="shrink-0 text-[var(--accent-ink)]" />
                       <span className="font-semibold text-[var(--navy)]">{b.customerName}</span>
                     </p>
                     <p className="flex items-center gap-2 text-slate-600">
-                      <Phone size={16} className="shrink-0 text-[var(--accent-ink)]" />
-                      Phone:{" "}
+                      <Phone size={16} aria-hidden="true" className="shrink-0 text-[var(--accent-ink)]" />
                       <span className="font-semibold text-[var(--navy)]">{b.customerPhone}</span>
                     </p>
                     <p className="flex items-start gap-2 text-slate-600 sm:col-span-2">
-                      <MapPin size={16} className="mt-0.5 shrink-0 text-[var(--accent-ink)]" />
-                      Address:{" "}
+                      <MapPin size={16} aria-hidden="true" className="mt-0.5 shrink-0 text-[var(--accent-ink)]" />
                       <span className="font-semibold text-[var(--navy)]">{b.address}</span>
+                    </p>
+                    <p className="flex items-center gap-2 text-slate-600 sm:col-span-2">
+                      <CalendarDays size={16} aria-hidden="true" className="shrink-0 text-[var(--accent-ink)]" />
+                      Preferred date: <span className="font-semibold text-[var(--navy)]">{date(b.preferredDate)}</span>
                     </p>
                   </div>
 
-                  <p className="whitespace-pre-wrap break-words rounded-lg bg-[var(--sage-soft)] p-3 text-sm text-[var(--navy)]">
+                  <p className="whitespace-pre-wrap break-words rounded-xl bg-[var(--sage-soft)] p-3 text-sm text-[var(--navy)]">
                     {b.problemDescription}
                   </p>
                 </div>
 
                 {/* right: job number, status, price, actions */}
-                <div className="flex flex-col gap-3 border-t border-[var(--line)] bg-[var(--sage-soft)]/40 p-5 md:border-l md:border-t-0">
+                <div className="flex flex-col gap-3 border-t border-[var(--line)] bg-[var(--sage-soft)]/50 p-5 md:border-l md:border-t-0">
                   <p className="font-mono text-xs text-slate-500">
                     Job #{b._id.slice(-4).toUpperCase()}
                   </p>
@@ -260,17 +281,30 @@ export default function Requests() {
         onClose={() => setCompleting(null)}
         title="Mark job as completed"
       >
-        <label className="input-label">Final amount (USD)</label>
-        <input
-          type="number"
-          min="0.01"
-          step="0.01"
-          className="input-box"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-        <button className="btn-main mt-4 w-full" onClick={completeJob}>
-          Complete Job
+        <div>
+          <label htmlFor="final-amount" className="input-label">Final amount (USD)</label>
+          <div className="relative">
+            <DollarSign size={18} aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              id="final-amount"
+              type="number"
+              min="0.01"
+              step="0.01"
+              className="input-box pl-11"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </div>
+          <p className="mt-2 text-xs text-slate-500">The customer pays this amount after the job is completed.</p>
+        </div>
+        <button className="btn-main w-full" onClick={completeJob} disabled={saving}>
+          {saving ? (
+            <>
+              <Loader2 size={18} className="animate-spin" aria-hidden="true" /> Saving...
+            </>
+          ) : (
+            "Complete Job"
+          )}
         </button>
       </Modal>
     </div>
