@@ -28,7 +28,7 @@ export default function StatusChart({ title, data }: { title: string; data: Char
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--line)" vertical={false} />
-              <XAxis dataKey="name" tickLine={false} axisLine={false} tick={{ fill: "var(--color-slate-500)", fontSize: 12 }} />
+              <XAxis dataKey="name" interval={0} tickLine={false} axisLine={false} tick={{ fill: "var(--color-slate-500)", fontSize: 10 }} />
               <YAxis allowDecimals={false} tickLine={false} axisLine={false} tick={{ fill: "var(--color-slate-500)", fontSize: 12 }} />
               <Tooltip
                 cursor={{ fill: "rgb(47 109 240 / 0.07)" }}
@@ -38,7 +38,7 @@ export default function StatusChart({ title, data }: { title: string; data: Char
                   boxShadow: "0 14px 30px -14px rgb(30 63 207 / 0.4)",
                 }}
               />
-              <Bar dataKey="value" radius={[10, 10, 0, 0]} maxBarSize={44}>
+             <Bar dataKey="value" name="Count" radius={[10, 10, 0, 0]} maxBarSize={44}>
                 {data.map((d) => (
                   <Cell key={d.name} fill={colors[d.name] || "#2f6df0"} />
                 ))}

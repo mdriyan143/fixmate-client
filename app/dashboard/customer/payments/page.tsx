@@ -48,7 +48,7 @@ export default function PaymentHistory() {
         <StatCard label="Payments Made" value={data.length} icon={Receipt} />
       </div>
 
-      <div className="card-box table-box">
+      <div className="card-box table-box hidden md:block">
         <table>
           <thead>
             <tr>
@@ -78,6 +78,22 @@ export default function PaymentHistory() {
             ))}
           </tbody>
         </table>
+        <div className="grid gap-3 md:hidden">
+          {data.map((p) => (
+            <div key={p._id} className="card-box space-y-2 p-4">
+              <div className="flex items-start justify-between gap-3">
+                <p className="min-w-0 truncate font-semibold text-[var(--navy)]">{p.serviceTitle}</p>
+                <p className="shrink-0 font-extrabold text-[var(--navy)]">${p.amount}</p>
+              </div>
+              <p className="text-sm text-slate-500">{p.technicianName} · {new Date(p.paidAt).toLocaleDateString("en-GB")}</p>
+              <p className="break-all font-mono text-xs text-slate-400">{p.transactionId}</p>
+              <Link href={`/dashboard/customer/invoices/${p.bookingId}`} className="btn-ghost btn-small w-full">
+                <FileText size={14} aria-hidden="true" /> Invoice
+              </Link>
+            </div>
+          ))}
+        </div>
+
       </div>
     </div>
   );

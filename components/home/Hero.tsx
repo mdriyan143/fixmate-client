@@ -90,7 +90,7 @@ export default function Hero() {
           </div>
 
           {/* floating glass card */}
-          <div className="card-box animate-float absolute -bottom-5 left-2 flex items-center gap-3 px-4 py-3 sm:-left-6">
+          <div className="card-box animate-float absolute -bottom-5 left-2 hidden items-center gap-3 px-4 py-3 sm:-left-6 sm:flex">
             <span className="icon-tile h-10 w-10 rounded-xl">
               <CircleCheck size={20} aria-hidden="true" />
             </span>

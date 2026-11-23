@@ -108,6 +108,8 @@ body::before {
 }
 
 @layer base {
+
+ .grid { grid-template-columns: minmax(0, 1fr); }
   html { scroll-behavior: smooth; }
   h1, h2, h3, h4 {
     font-family: var(--font-manrope, inherit);   /* Manrope is loaded in Step 2; falls back safely until then */

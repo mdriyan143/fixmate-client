@@ -47,7 +47,7 @@ export default function StatusTracker({ booking }: { booking: Booking }) {
             >
               {done && <Check size={12} strokeWidth={3} aria-hidden="true" />}
             </span>
-            <p className={`mt-1.5 whitespace-nowrap text-[10px] ${done ? "font-semibold text-[var(--navy)]" : "text-slate-400"}`}>
+            <p className={`mt-1.5 text-[10px] leading-tight ${done ? "font-semibold text-[var(--navy)]" : "text-slate-400"}`}>
               {names[step]}
             </p>
             {/* date only under the current step; hover any step to see its time */}

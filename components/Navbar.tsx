@@ -141,7 +141,7 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="animate-fade-up space-y-2 border-t border-white/60 bg-white/85 px-4 py-4 backdrop-blur-xl dark:border-white/10 dark:bg-[#0d1638]/90 md:hidden">
+        <div className="animate-fade-up max-h-[calc(100dvh-4rem)] overflow-y-auto space-y-2 border-t border-white/60 bg-white/85 px-4 py-4 backdrop-blur-xl dark:border-white/10 dark:bg-[#0d1638]/90 md:hidden">
           <div className="flex items-center justify-between pb-1">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Menu</span>
             <ThemeToggle />

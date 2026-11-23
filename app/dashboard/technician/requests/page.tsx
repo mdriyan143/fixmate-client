@@ -122,7 +122,7 @@ export default function Requests() {
           <h1 className="text-2xl font-extrabold text-[var(--navy)] sm:text-3xl">Manage Requests</h1>
           <p className="mt-1 text-sm text-slate-500">Move each job forward one step at a time.</p>
         </div>
-        <div className="hidden gap-2 md:flex">
+        <div className="hidden gap-2 lg:flex">
           <button
             onClick={() => setView("table")}
             aria-pressed={view === "table"}
@@ -168,7 +168,7 @@ export default function Requests() {
       ) : (
         <>
           {/* TABLE (desktop only, the layout the assignment asks for) */}
-          <div className={`card-box table-box ${view === "table" ? "hidden md:block" : "hidden"}`}>
+          <div className={`card-box table-box ${view === "table" ? "hidden lg:block" : "hidden"}`}>
             <table>
               <thead>
                 <tr>
@@ -205,7 +205,7 @@ export default function Requests() {
           </div>
 
           {/* CARDS (always on mobile, optional on desktop) */}
-          <div className={view === "cards" ? "grid gap-4" : "grid gap-4 md:hidden"}>
+          <div className={view === "cards" ? "grid gap-4" : "grid gap-4 lg:hidden"}>
             {list.map((b) => (
               <div
                 key={b._id}

@@ -28,7 +28,7 @@ export default async function ServiceDetailsPage({ params }: { params: Promise<{
   ];
 
   return (
-    <div className="page-wrap section-gap">
+   <div className="page-wrap section-gap max-sm:px-4">
       <Link
         href="/services"
         className="press mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent-ink)] hover:underline"

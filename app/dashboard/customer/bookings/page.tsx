@@ -108,7 +108,7 @@ export default function MyBookings() {
                     </div>
                   </div>
                 </div>
-                <div className="text-right">
+                <div className="text-left sm:text-right">
                   <p className="text-xs text-slate-500">{finished ? "Final amount" : "Starting price"}</p>
                   <p className="text-2xl font-extrabold text-[var(--navy)]">${price}</p>
                 </div>
@@ -130,11 +130,11 @@ export default function MyBookings() {
               </div>
 
               {/* bottom: tracker and actions */}
-              <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[var(--line)] bg-[var(--sage-soft)]/50 px-5 py-4">
-                <div className="min-w-0 flex-1">
-                  <StatusTracker booking={b} />
+             <div className="flex flex-col gap-4 border-t border-[var(--line)] bg-[var(--sage-soft)]/50 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="w-full min-w-0 sm:flex-1">
+                 <StatusTracker booking={b} />
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 sm:shrink-0">
                   {b.status === "requested" && (
                     <button className="btn-danger btn-small" onClick={() => setCancelId(b._id)}>
                       <X size={14} aria-hidden="true" /> Cancel
