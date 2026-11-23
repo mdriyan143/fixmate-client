@@ -1,146 +1,125 @@
-# FixMate — Client
+# FixMate
 
-FixMate is a full-stack, role-based device and home-appliance repair booking platform. This repository contains the **Next.js frontend** for customers, technicians, and administrators.
+## Purpose
+FixMate is an on-demand device and home appliance repair booking platform. Verified technicians list repair services, customers send repair requests and track each job step by step, and they pay online only after the job is completed. Admins approve services, manage users and monitor all jobs and payments.
 
-Customers can discover approved repair services, submit repair requests, follow job progress, pay after completion, review paid jobs, and download invoices. Technicians manage services and repair requests, while administrators manage users, approve services, and monitor bookings and transactions.
+This is the **client** (Next.js). The API is in the server repo.
 
-## Live Application
+## Live URL and Repositories
+| | |
+|---|---|
+| Live site | https://fixmate-client-mdriyan143.vercel.app |
+| Live API | https://fixmate-server-pi.vercel.app |
+| Client repo | https://github.com/mdriyan143/fixmate-client |
+| Server repo | https://github.com/mdriyan143/fixmate-server |
 
-- **Live site:** https://fixmate-client-mdriyan143.vercel.app
-- **Backend API:** https://fixmate-server-pi.vercel.app
+## Credentials
+Password for all accounts: `Fixmate123`
 
+| Role | Email |
+|---|---|
+| Admin | admin@fixmate.com |
+| Technician | rafiq@fixmate.com |
+| Technician | sabbir@fixmate.com |
+| Customer | customer@fixmate.com |
 
-## Tech Stack
+## Key Features
 
-- Next.js 16 (App Router)
-- React 19
-- TypeScript
-- BetterAuth (MongoDB adapter, JWT, optional Google sign-in)
-- Tailwind CSS 4
-- Radix UI / shadcn UI components
-- Recharts
-- Sonner
-- Lucide React and React Icons
-- jsPDF
-- MongoDB Node.js driver
+**Public**
+- Hero, 6 latest services, how it works, popular categories, why choose us
+- Server-side search, category and mode filter, sort and pagination on `/services` (filters stay after reload)
+- Service details with technician info and ratings
+- Customer-only repair request form
+- About page, light and dark theme
 
-## Main Features
+**Authentication**
+- BetterAuth email/password sign up and sign in, optional Google login
+- Customer or Technician role at sign up (admin can't be chosen)
+- Redirect back to the page the user wanted after sign in
+- Protected dashboards using `proxy.ts` plus a role check in the dashboard layout
 
-### Public Website
-- Responsive home page with hero section, featured services, repair categories, and workflow explanation.
-- Browse approved and available services.
-- Server-side search by service title/category, category and service-mode filters, sorting, and pagination.
-- Service details with technician information and ratings.
-- Customer-only repair request form.
-- About / How It Works page.
-- Responsive navigation, footer, loading states, custom not-found page, and error page.
-- Light/dark theme toggle.
+**Customer**
+- Overview stats and chart
+- My Bookings: cancel while requested, Pay Now when completed and unpaid, status tracker
+- Payment history, rating and review, PDF invoice
 
-### Authentication and Authorization
-- Email/password registration and sign-in with BetterAuth.
-- Customer and Technician role selection; Admin is not selectable during public registration.
-- Optional Google sign-in when Google OAuth credentials are configured.
-- Role-based dashboard routing and protected dashboard pages.
-- JWT token retrieval for authenticated requests to the Express API.
-- Profile update for name, phone, area, bio, and profile photo.
+**Technician**
+- Add service with ImgBB image upload
+- My Services: edit (goes back to pending), delete, availability switch
+- Manage Requests: accept, reject, start work, complete with final amount, status filter
 
-### Customer Dashboard
-- Overview statistics and booking status visualization.
-- View bookings and track job status.
-- Cancel a booking while it is still requested.
-- Pay for completed, unpaid jobs through Stripe Checkout.
-- View payment history, submit a rating/review for a paid booking, and download a PDF invoice.
+**Admin**
+- Overview stats and charts
+- Manage users and roles (can't change own role)
+- Service approval, all bookings with filter, transactions with total revenue
 
-### Technician Dashboard
-- Add, edit, delete, and manage availability of repair services.
-- New and edited services are submitted for admin approval.
-- View and manage repair requests: accept, reject, start work, and complete jobs with a final amount.
+**Shared**
+- Update profile with photo (name and photo update in navbar without logout)
+- Toasts, confirmation modals, empty states, loading pages, custom 404 and error pages
 
-### Admin Dashboard
-- View platform statistics.
-- Manage users and roles.
-- Approve or reject technician services.
-- Monitor all bookings and filter by status.
-- View transactions and platform revenue.
+## Stripe Test (test mode)
+1. Sign in as `customer@fixmate.com`.
+2. Open **My Bookings**, find a booking that is `Completed` and `Unpaid`.
+3. Click **Pay Now** and pay on Stripe Checkout.
+4. You land on `/payment/success` with the amount and transaction ID. The booking becomes `Paid` and shows in Payment History.
 
-## Demo Accounts
+| Card number | Result |
+|---|---|
+| `4242 4242 4242 4242` | Payment succeeds |
+| `4000 0000 0000 0002` | Card is declined |
+| `4000 0025 0000 3155` | Asks for 3D Secure |
 
-The server repository's `seed.js` creates the following demo accounts. The seed script uses the same password for all four accounts:
+Use any future expiry (like `12/34`), any 3-digit CVC and any ZIP. Cancelling on Stripe goes to `/payment/cancel` and changes nothing.
 
-| Role | Email | Password |
-|---|---|---|
-| Admin | `admin@fixmate.com` | `Fixmate123` |
-| Technician | `rafiq@fixmate.com` | `Fixmate123` |
-| Technician | `sabbir@fixmate.com` | `Fixmate123` |
-| Customer | `customer@fixmate.com` | `Fixmate123` |
+To test with a new job: sign in as a technician, move a request through Accept, Start Work and Mark Completed (enter the final amount), then pay as the customer.
 
-These credentials are valid only after the server seed process has completed successfully and the accounts exist in the connected database. Change demo credentials before using a production database.
+## npm Packages
+| Package | Used for |
+|---|---|
+| next, react, react-dom | App Router frontend |
+| typescript | Types |
+| tailwindcss, @tailwindcss/turbopack, tw-animate-css | Styling |
+| better-auth | Auth, MongoDB adapter, JWT, Google login |
+| mongodb | Database driver for BetterAuth |
+| radix-ui, shadcn, class-variance-authority, cn | UI components |
+| lucide-react, react-icons | Icons |
+| recharts | Dashboard charts |
+| sonner | Toast notifications |
+| jspdf | PDF invoice |
 
 ## Environment Variables
-
-Create a `.env.local` file in the root of this client project. Do not commit it.
+Create `.env.local` (never commit it):
 
 ```env
-# MongoDB connection used by BetterAuth
 MONGODB_URI=your_mongodb_atlas_connection_string
 DB_NAME=fixmate
-
-# BetterAuth
-BETTER_AUTH_SECRET=replace_with_a_long_random_secret_at_least_32_characters
+BETTER_AUTH_SECRET=a_long_random_string_32_chars_or_more
 BETTER_AUTH_URL=http://localhost:3000
 TRUSTED_ORIGINS=http://localhost:3000
-
-# Express API base URL
 NEXT_PUBLIC_API_URL=http://localhost:5000
-
-# Image upload (used by the Next.js upload route)
 IMGBB_KEY=your_imgbb_api_key
-
-# Optional Google OAuth (configure both values to enable Google sign-in)
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
+# optional, enables Google login
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 ```
 
-For production, update `BETTER_AUTH_URL`, `TRUSTED_ORIGINS`, and `NEXT_PUBLIC_API_URL` to the correct deployed origins. Add the frontend production origin to BetterAuth trusted origins and the backend CORS allowlist.
+For production, set `BETTER_AUTH_URL` and `TRUSTED_ORIGINS` to the live site, and `NEXT_PUBLIC_API_URL` to the live API.
 
-## Installation and Run
-
-**Requirements:** Node.js (LTS recommended), npm, MongoDB, and a running FixMate Express server.
-
+## Run Locally
 ```bash
-# Install dependencies
 npm install
-
-# Start the development server
-npm run dev
+npm run dev     # http://localhost:3000
+npm run build   # production build
 ```
+Start the server repo first so the API is available.
 
-Open [http://localhost:3000](http://localhost:3000).
-
-### Production Build
-
-```bash
-npm run build
-npm run start
-```
-
-## Related Repository
-
-The Express API and database operations are maintained in the [FixMate Server repository](YOUR-SERVER-GITHUB-REPOSITORY-URL).
-
-## Project Structure
-
+## Folder Structure
 ```text
 app/
-  (public)/        Public pages: home, services, about, auth, payment
-  api/             BetterAuth handler and image upload endpoint
-  dashboard/       Customer, Technician, and Admin dashboards
-components/        Shared UI, navigation, service cards, dashboard widgets
-lib/               Authentication, API client, types, utilities, uploads
+  (public)/    home, services, about, sign-in, sign-up, payment
+  dashboard/   customer, technician, admin, profile
+  api/         BetterAuth handler, ImgBB upload
+components/    navbar, footer, cards, modals, charts
+lib/           auth, api client, types, constants
+proxy.ts       redirects logged-out users to /sign-in
 ```
-
-## Notes
-
-- Stripe uses test mode for the assignment workflow.
-- Never expose private credentials in client-side code or commit `.env.local`.
-- The frontend expects the Express API to be reachable through `NEXT_PUBLIC_API_URL`.
