@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Activity, ArrowLeft, BadgeCheck, Clock, House, Lock, MapPin, Store } from "lucide-react";
+import { Activity, ArrowLeft, BadgeCheck, Clock, House, Lock, MapPin, Star, Store } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import RequestRepair from "@/components/RequestRepair";
 import RatingLine from "@/components/RatingLine";
 import { getJSON } from "@/lib/server-api";
 import type { Service } from "@/lib/types";
+
+type PublicReview = { _id: string; customerName: string; rating: number; review?: string; reviewedAt: string };
 
 // short reassurance lines next to the price (all true for this platform)
 const assurances: [LucideIcon, string][] = [
@@ -18,6 +20,7 @@ export default async function ServiceDetailsPage({ params }: { params: Promise<{
   const { id } = await params;
   const s = await getJSON<Service>(`/api/services/${id}`);
   if (!s) notFound(); // missing, not approved or not available
+  const reviews = (await getJSON<PublicReview[]>(`/api/services/${id}/reviews`)) ?? [];
 
   const tech = s.technician;
   const ModeIcon = s.serviceMode === "Home Visit" ? House : Store;
@@ -28,7 +31,7 @@ export default async function ServiceDetailsPage({ params }: { params: Promise<{
   ];
 
   return (
-   <div className="page-wrap section-gap max-sm:px-4">
+    <div className="page-wrap section-gap max-sm:px-4">
       <Link
         href="/services"
         className="press mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent-ink)] hover:underline"
@@ -73,6 +76,40 @@ export default async function ServiceDetailsPage({ params }: { params: Promise<{
               </div>
             ))}
           </div>
+
+          {/* ---------- customer reviews ---------- */}
+          <section className="mt-10" aria-labelledby="reviews-title">
+            <h2 id="reviews-title" className="text-xl font-extrabold text-[var(--navy)]">Customer reviews</h2>
+            {reviews.length === 0 ? (
+              <p className="mt-3 text-sm text-slate-500">No reviews yet.</p>
+            ) : (
+              <ul className="mt-4 space-y-3">
+                {reviews.map((r) => (
+                  <li key={r._id} className="card-box p-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="truncate font-semibold text-[var(--navy)]">{r.customerName}</p>
+                      <span className="flex shrink-0 items-center gap-0.5" aria-label={`${r.rating} out of 5`}>
+                        {[1, 2, 3, 4, 5].map((n) => (
+                          <Star
+                            key={n}
+                            size={14}
+                            aria-hidden="true"
+                            className={n <= r.rating ? "fill-amber-400 text-amber-400" : "text-slate-300"}
+                          />
+                        ))}
+                      </span>
+                    </div>
+                    {r.review && <p className="mt-2 text-sm leading-relaxed text-slate-600">{r.review}</p>}
+                    {r.reviewedAt && (
+                      <p className="mt-2 text-xs text-slate-400">
+                        {new Date(r.reviewedAt).toLocaleDateString("en-GB")}
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
         </div>
 
         {/* ---------- booking column (stays in view on desktop) ---------- */}
