@@ -73,6 +73,19 @@ Use any future expiry (like `12/34`), any 3-digit CVC and any ZIP. Cancelling on
 
 To test with a new job: sign in as a technician, move a request through Accept, Start Work and Mark Completed (enter the final amount), then pay as the customer.
 
+
+## Tech Stack
+| Area | Technology |
+|---|---|
+| Frontend | Next.js 16 (App Router), React 19, TypeScript |
+| Styling and UI | Tailwind CSS 4, shadcn/ui (Radix UI), Lucide and React Icons |
+| Authentication | BetterAuth (MongoDB adapter, JWT, optional Google login) |
+| Charts and extras | Recharts, Sonner (toasts), jsPDF (invoice) |
+| Payment | Stripe Checkout (test mode), started from the server API |
+| Media | ImgBB API (image upload) |
+| Hosting | Vercel |
+
+
 ## npm Packages
 | Package | Used for |
 |---|---|
